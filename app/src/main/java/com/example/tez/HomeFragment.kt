@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 
 
@@ -22,9 +24,12 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //val navigationHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        //val navController = navigationHost.navController
+
         val btnExpenses = view.findViewById<Button>(R.id.btn_expenses)
         btnExpenses.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_expensesFragment)
+            view.findNavController().navigate(R.id.action_homeFragment_to_expensesFragment)
         }
     }
 

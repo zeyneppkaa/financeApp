@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.tez.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="Home" >
         <action
             android:id="@+id/action_homeFragment_to_expensesFragment"
             app:destination="@id/expensesFragment" />
@@ -15,5 +16,14 @@
     <fragment
         android:id="@+id/expensesFragment"
         android:name="com.example.tez.ExpensesFragment"
-        android:label="ExpensesFragment" />
+        android:label="Expenses" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.tez.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="com.example.tez.ScanFragment"
+        android:label="Scan" />
 </navigation>
