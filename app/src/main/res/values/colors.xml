@@ -10,6 +10,8 @@
     <color name="green"> #008000</color>
     <color name="red">  #FF0000</color>
     <color name="kırıkBeyaz">#f5f5dc</color>
-
-
+    <color name="selected_category">#C8C7C8</color> <!-- Aktif kategori rengi -->
+    <color name="default_category">#FFFFFF</color> <!-- Varsayılan kategori rengi -->
+    <color name="selected_category_text">#FFFFFF</color> <!-- Aktif kategori text rengi -->
+    <color name="default_category_text">#000000</color> <!-- Varsayılan kategori text rengi -->
 </resources>
