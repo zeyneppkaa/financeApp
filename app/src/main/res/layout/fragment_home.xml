@@ -1,53 +1,328 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:layout_height="730dp"
+    tools:context=".ProfileFragment">
 
-    <GridLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="1"
-        android:rowCount="5"
-        android:padding="16dp"
-        android:useDefaultMargins="true">
+        android:layout_height="match_parent"
+        android:contentDescription="kaydırmali"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
-        <Button
-            android:id="@+id/btn_income"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Income"
-            android:layout_margin="8dp" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_expenses"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Expenses"
-            android:layout_margin="8dp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp">
 
-        <Button
-            android:id="@+id/btn_bills"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Bills"
-            android:layout_margin="8dp" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="150dp"
+                    android:background="@drawable/top_background"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/btn_accounts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Accounts"
-            android:layout_margin="8dp" />
+                    <TextView
+                        android:id="@+id/textView27"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hello User!"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.16"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.39" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/btn_analysis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Analysis"
-            android:layout_margin="8dp" />
-    </GridLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="320dp"
+                    android:layout_height="225dp"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                    app:layout_constraintVertical_bias="1.0">
 
-</LinearLayout>
+                    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                        android:id="@+id/progress_circular"
+                        android:layout_width="175dp"
+                        android:layout_height="175dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginEnd="75dp"
+                        android:layout_marginBottom="25dp"
+                        app:cpb_background_progressbar_color="@color/grey"
+                        app:cpb_background_progressbar_width="15dp"
+                        app:cpb_progress="60"
+                        app:cpb_progress_direction="to_right"
+                        app:cpb_progress_max="100"
+                        app:cpb_progressbar_color="@color/dark_blue"
+                        app:cpb_progressbar_width="15dp"
+                        app:cpb_round_border="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0" />
+
+                    <TextView
+                        android:id="@+id/textView14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="€6,842.50"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_circular"
+                        app:layout_constraintEnd_toEndOf="@+id/progress_circular"
+                        app:layout_constraintStart_toStartOf="@+id/progress_circular"
+                        app:layout_constraintTop_toTopOf="@+id/progress_circular" />
+
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_circular"
+                        app:layout_constraintEnd_toEndOf="@+id/textView14"
+                        app:layout_constraintStart_toStartOf="@+id/textView14"
+                        app:layout_constraintTop_toBottomOf="@+id/textView14"
+                        app:layout_constraintVertical_bias="0.17000002" />
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        android:contentDescription="mavi yuvarlak"
+                        app:layout_constraintStart_toStartOf="@+id/progress_circular"
+                        app:layout_constraintTop_toBottomOf="@+id/progress_circular"
+                        app:srcCompat="@drawable/darkblue_circle" />
+
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Income"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.02"
+                        app:layout_constraintStart_toEndOf="@+id/imageView2"
+                        app:layout_constraintTop_toBottomOf="@+id/progress_circular" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.05"
+                        android:contentDescription="gri yuvarlak"
+                        app:layout_constraintStart_toEndOf="@+id/textView16"
+                        app:layout_constraintTop_toBottomOf="@+id/progress_circular"
+                        app:srcCompat="@drawable/grey_circle" />
+
+                    <TextView
+                        android:id="@+id/textView17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Expenses"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/imageView3"
+                        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="34dp"
+                android:layout_marginEnd="44dp"
+                android:background="@color/light_blue"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="0.333"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/textView18"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Income"
+                        android:textColor="@color/dark_blue" />
+
+                    <TextView
+                        android:id="@+id/textView19"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="€9.747"
+                        android:textSize="21sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView20"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="+25%"
+                        android:textColor="@color/green" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/dark_blue" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="0.333"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/textView21"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Expenses"
+                        android:textColor="@color/dark_blue" />
+
+                    <TextView
+                        android:id="@+id/textView22"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="€2.349"
+                        android:textSize="21sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="-12%"
+                        android:textColor="@color/red" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/dark_blue" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="0.333"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/textView24"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Bills"
+                        android:textColor="@color/dark_blue" />
+
+                    <TextView
+                        android:id="@+id/textView25"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="€628"
+                        android:textSize="21sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView26"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="+10%"
+                        android:textColor="@color/green" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/dark_blue"
+                    android:layout_marginStart="75dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Income" />
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/dark_blue"
+                    android:layout_marginStart="75dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Expenses" />
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/dark_blue"
+                    android:layout_marginStart="75dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Bills" />
+
+                <Button
+                    android:id="@+id/button7"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/dark_blue"
+                    android:layout_marginStart="75dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Analysis" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
