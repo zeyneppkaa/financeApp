@@ -2,4 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_blue">#EAEEFC</color>
+    <color name="dark_blue">#37449E</color>
+    <color name="grey">#8E8E8E</color>
+    <color name="light_gray">#DEDEDE</color>
+    <color name="pink">#DBB7F1</color>
+    <color name="green"> #008000</color>
+    <color name="red">  #FF0000</color>
+    <color name="kırıkBeyaz">#f5f5dc</color>
+
+
 </resources>
