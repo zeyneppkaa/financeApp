@@ -3,15 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="730dp"
+    android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="kaydırmali"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,21 +64,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
                     app:layout_constraintVertical_bias="1.0">
 
-                    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
                         android:id="@+id/progress_circular"
                         android:layout_width="175dp"
                         android:layout_height="175dp"
                         android:layout_marginTop="25dp"
                         android:layout_marginEnd="75dp"
                         android:layout_marginBottom="25dp"
-                        app:cpb_background_progressbar_color="@color/grey"
-                        app:cpb_background_progressbar_width="15dp"
-                        app:cpb_progress="60"
-                        app:cpb_progress_direction="to_right"
-                        app:cpb_progress_max="100"
-                        app:cpb_progressbar_color="@color/dark_blue"
-                        app:cpb_progressbar_width="15dp"
-                        app:cpb_round_border="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
@@ -115,10 +109,10 @@
                         android:id="@+id/imageView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="mavi yuvarlak"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
-                        android:contentDescription="mavi yuvarlak"
                         app:layout_constraintStart_toStartOf="@+id/progress_circular"
                         app:layout_constraintTop_toBottomOf="@+id/progress_circular"
                         app:srcCompat="@drawable/darkblue_circle" />
@@ -138,10 +132,10 @@
                         android:id="@+id/imageView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="gri yuvarlak"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.05"
-                        android:contentDescription="gri yuvarlak"
                         app:layout_constraintStart_toEndOf="@+id/textView16"
                         app:layout_constraintTop_toBottomOf="@+id/progress_circular"
                         app:srcCompat="@drawable/grey_circle" />
@@ -289,40 +283,38 @@
                     android:id="@+id/button4"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/dark_blue"
                     android:layout_marginStart="75dp"
                     android:layout_marginTop="15dp"
+                    android:backgroundTint="@color/dark_blue"
                     android:text="Income" />
 
                 <Button
-                    android:id="@+id/button5"
+                    android:id="@+id/btnExpenses"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/dark_blue"
                     android:layout_marginStart="75dp"
                     android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/dark_blue"
                     android:text="Expenses" />
 
                 <Button
                     android:id="@+id/button6"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/dark_blue"
                     android:layout_marginStart="75dp"
                     android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/dark_blue"
                     android:text="Bills" />
 
                 <Button
                     android:id="@+id/button7"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/dark_blue"
                     android:layout_marginStart="75dp"
                     android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/dark_blue"
                     android:text="Analysis" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-

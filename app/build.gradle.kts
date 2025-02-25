@@ -52,8 +52,6 @@ dependencies {
 
     val nav_version = "2.8.6"
 
-    implementation ("com.mikhaellopez:circularprogressbar:3.1.0" )
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
