@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_expensesFragment"
             app:destination="@id/expensesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_incomeFragment"
+            app:destination="@id/incomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/expensesFragment"
@@ -29,4 +32,10 @@
         android:name="com.example.tez.ScanFragment"
         android:label="Scan"
         tools:layout="@layout/fragment_scan"/>
+    <fragment
+        android:id="@+id/incomeFragment"
+        android:name="com.example.tez.IncomeFragment"
+        android:label="Income"
+        tools:layout="@layout/fragment_income" />
+
 </navigation>
