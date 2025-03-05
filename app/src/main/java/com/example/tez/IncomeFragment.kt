@@ -59,11 +59,10 @@ class IncomeFragment : Fragment() {
             Incomes("Rental", "Summer House", 1100.0, "2025-02-26")
         )
 
-        // TEST VERİ LİSTEYE EKLE
+        // TEST VERİLERİNİ LİSTEYE EKLE
         selectedIncomes.addAll(testExpenses)
 
-        // RecyclerView'a adapter tanımla
-
+        // RecyclerView için adapter tanımla
         IncomeAdapter = IncomeAdapter(selectedIncomes)
         binding.rvTestIncome.layoutManager = GridLayoutManager(context, 1)
         binding.rvTestIncome.adapter = IncomeAdapter
@@ -101,6 +100,4 @@ class IncomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

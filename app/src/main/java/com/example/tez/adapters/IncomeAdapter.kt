@@ -33,7 +33,6 @@ class IncomeAdapter (
       override fun onBindViewHolder(holder: IncomeViewHolder, position: Int) {
          holder.bind(incomes1[position])
          }
-
       }
 
 

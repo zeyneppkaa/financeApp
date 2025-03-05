@@ -5,4 +5,5 @@ data class Incomes (
     val name1: String,
     val price1: Double,
     val date1: String
+
 )

@@ -140,6 +140,8 @@
             android:inputType="numberDecimal"
             android:background="@android:color/transparent"
             android:padding="8dp"/>
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
