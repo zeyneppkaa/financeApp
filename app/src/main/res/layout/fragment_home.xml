@@ -36,7 +36,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/textView27"
+                        android:id="@+id/tv_hello_user"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Hello User!"
@@ -49,6 +49,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.39" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,18 +69,61 @@
                         android:id="@+id/progress_circular"
                         android:layout_width="175dp"
                         android:layout_height="175dp"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginEnd="75dp"
-                        android:layout_marginBottom="25dp"
+                        android:layout_marginHorizontal="125dp"
+                        app:indicatorSize="125dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0" />
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_mavi_yuvarlak"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="mavi yuvarlak"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/progress_circular"
+                        app:layout_constraintTop_toBottomOf="@+id/progress_circular"
+                        app:srcCompat="@drawable/darkblue_circle" />
 
                     <TextView
-                        android:id="@+id/textView14"
+                        android:id="@+id/tv_income"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Income"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.02"
+                        app:layout_constraintStart_toEndOf="@+id/iv_mavi_yuvarlak"
+                        app:layout_constraintTop_toBottomOf="@+id/progress_circular" />
+
+                    <ImageView
+                        android:id="@+id/iv_gri_yuvarlak"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="gri yuvarlak"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.05"
+                        app:layout_constraintStart_toEndOf="@+id/tv_income"
+                        app:layout_constraintTop_toBottomOf="@+id/progress_circular"
+                        app:srcCompat="@drawable/grey_circle" />
+
+                    <TextView
+                        android:id="@+id/tv_expenses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Expenses"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/iv_gri_yuvarlak"
+                        app:layout_constraintTop_toTopOf="@+id/iv_gri_yuvarlak" />
+
+                    <TextView
+                        android:id="@+id/tv_total_money"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="€6,842.50"
@@ -92,64 +136,17 @@
                         app:layout_constraintTop_toTopOf="@+id/progress_circular" />
 
                     <TextView
-                        android:id="@+id/textView15"
+                        android:id="@+id/tv_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Total"
                         android:textColor="@color/dark_blue"
+                        android:layout_marginTop="8dp"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/progress_circular"
-                        app:layout_constraintEnd_toEndOf="@+id/textView14"
-                        app:layout_constraintStart_toStartOf="@+id/textView14"
-                        app:layout_constraintTop_toBottomOf="@+id/textView14"
-                        app:layout_constraintVertical_bias="0.17000002" />
-
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="mavi yuvarlak"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/progress_circular"
-                        app:layout_constraintTop_toBottomOf="@+id/progress_circular"
-                        app:srcCompat="@drawable/darkblue_circle" />
-
-                    <TextView
-                        android:id="@+id/textView16"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Income"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.02"
-                        app:layout_constraintStart_toEndOf="@+id/imageView2"
-                        app:layout_constraintTop_toBottomOf="@+id/progress_circular" />
-
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="gri yuvarlak"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.05"
-                        app:layout_constraintStart_toEndOf="@+id/textView16"
-                        app:layout_constraintTop_toBottomOf="@+id/progress_circular"
-                        app:srcCompat="@drawable/grey_circle" />
-
-                    <TextView
-                        android:id="@+id/textView17"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Expenses"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/imageView3"
-                        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+                        app:layout_constraintEnd_toEndOf="@+id/tv_total_money"
+                        app:layout_constraintStart_toStartOf="@+id/tv_total_money"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_total_money" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -171,14 +168,14 @@
 
 
                     <TextView
-                        android:id="@+id/textView18"
+                        android:id="@+id/analiz_income"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Income"
                         android:textColor="@color/dark_blue" />
 
                     <TextView
-                        android:id="@+id/textView19"
+                        android:id="@+id/analiz_total_money_income"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="€9.747"
@@ -186,7 +183,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView20"
+                        android:id="@+id/analiz_income_yuzde"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="+25%"
@@ -211,14 +208,14 @@
 
 
                     <TextView
-                        android:id="@+id/textView21"
+                        android:id="@+id/analiz_expenses"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Expenses"
                         android:textColor="@color/dark_blue" />
 
                     <TextView
-                        android:id="@+id/textView22"
+                        android:id="@+id/analiz_total_money_expenses"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="€2.349"
@@ -226,7 +223,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView23"
+                        android:id="@+id/analiz_expenses_yuzde"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="-12%"
@@ -250,14 +247,14 @@
 
 
                     <TextView
-                        android:id="@+id/textView24"
+                        android:id="@+id/analiz_bills"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Bills"
                         android:textColor="@color/dark_blue" />
 
                     <TextView
-                        android:id="@+id/textView25"
+                        android:id="@+id/analiz_total_money_bills"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="€628"
@@ -265,7 +262,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView26"
+                        android:id="@+id/analiz_bills_yuzde"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="+10%"
@@ -280,7 +277,7 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/button4"
+                    android:id="@+id/bttn_tv_income"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="75dp"
@@ -289,7 +286,7 @@
                     android:text="Income" />
 
                 <Button
-                    android:id="@+id/btnExpenses"
+                    android:id="@+id/bttn_tv_expenses"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="75dp"
@@ -298,7 +295,7 @@
                     android:text="Expenses" />
 
                 <Button
-                    android:id="@+id/button6"
+                    android:id="@+id/bttn_tv_bills"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="75dp"
@@ -307,13 +304,15 @@
                     android:text="Bills" />
 
                 <Button
-                    android:id="@+id/button7"
+                    android:id="@+id/bttn_tv_analysis"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="75dp"
                     android:layout_marginTop="5dp"
                     android:backgroundTint="@color/dark_blue"
                     android:text="Analysis" />
+
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

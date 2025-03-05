@@ -28,10 +28,10 @@
 
     <!-- Harcama Adı -->
     <TextView
-        android:id="@+id/tv_expense_name"
+        android:id="@+id/tv_income_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bomber Jacket"
+        android:text="Salary"
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
@@ -41,39 +41,39 @@
 
     <!-- Kategori Adı -->
     <TextView
-        android:id="@+id/tv_expense_category"
+        android:id="@+id/tv_income_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Shopping"
+        android:text="Job"
         android:textSize="12sp"
         android:textColor="@android:color/darker_gray"
-        app:layout_constraintStart_toStartOf="@id/tv_expense_name"
-        app:layout_constraintTop_toBottomOf="@id/tv_expense_name"
+        app:layout_constraintStart_toStartOf="@id/tv_income_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_income_name"
         android:layout_marginTop="2dp" />
 
     <!-- Harcama Tutarı -->
     <TextView
-        android:id="@+id/tv_expense_amount"
+        android:id="@+id/tv_income_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="- 247.000"
+        android:text="+ 1.570.000"
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_expense_name"
+        app:layout_constraintTop_toTopOf="@id/tv_income_name"
         android:layout_marginEnd="12dp" />
 
     <!-- Tarih Bilgisi -->
     <TextView
-        android:id="@+id/tv_expense_date"
+        android:id="@+id/tv_income_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Yesterday"
+        android:text="05.02.2025"
         android:textSize="12sp"
         android:textColor="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="@id/tv_expense_amount"
-        app:layout_constraintTop_toBottomOf="@id/tv_expense_amount"
+        app:layout_constraintEnd_toEndOf="@id/tv_income_amount"
+        app:layout_constraintTop_toBottomOf="@id/tv_income_amount"
         android:layout_marginTop="2dp" />
 
 
