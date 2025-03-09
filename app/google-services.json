@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "703359670221",
+    "project_id": "financeappproject-46cb0",
+    "storage_bucket": "financeappproject-46cb0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703359670221:android:e3a4d7e4d9b71a5f2cd684",
+        "android_client_info": {
+          "package_name": "com.example.tez"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCseIQzGWz6zt8DcQpyAhx6C-ydv1Keahw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
