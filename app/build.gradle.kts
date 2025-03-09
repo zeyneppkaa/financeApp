@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("androidx.navigation.safeargs.kotlin")
     id ("kotlin-kapt")
+    id("com.google.gms.google-services")
 
     // Kotlin serialization plugin for type safe routes and navigation arguments
     kotlin("plugin.serialization") version "2.0.21"
@@ -50,6 +51,10 @@ android {
 
 dependencies {
 
+    implementation(libs.firebase.firestore.ktx)
+    implementation("androidx.credentials:credentials:1.3.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation(libs.googleid)
     val nav_version = "2.8.6"
 
     implementation(libs.androidx.core.ktx)
@@ -76,4 +81,9 @@ dependencies {
 
     // JSON serialization library, works with the Kotlin serialization plugin
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-auth")
+
 }
