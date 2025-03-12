@@ -41,6 +41,11 @@ class LogInFragment : Fragment() {
                 Toast.makeText(requireContext(), "Email ve şifreyi giriniz!", Toast.LENGTH_SHORT).show()
             }
         }
+
+        // SignUp butonu tıklama işlemi
+        binding.btnSignup.setOnClickListener {
+            findNavController().navigate(R.id.action_logInFragment_to_signUpFragment)
+        }
     }
 
     private fun loginUser(email: String, password: String) {
@@ -49,7 +54,7 @@ class LogInFragment : Fragment() {
                 if (task.isSuccessful) {
                     Toast.makeText(requireContext(), "Giriş başarılı!", Toast.LENGTH_SHORT).show()
 
-                    // Giriş başarılıysa, HomeFragment'e geçiş yap
+                    // Giriş başarılıysa HomeFragment'e geçiş yap
                     val navController = findNavController()
                     navController.navigate(R.id.action_signUpFragment_to_homeFragment) // homeFragment'e yönlendirme
                 } else {
