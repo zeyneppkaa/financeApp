@@ -6,19 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tez.adapters.CategoryAdapter
-import com.example.tez.adapters.TestExpenseAdapter
+import com.example.tez.adapters.ExpenseAdapter
 import com.example.tez.databinding.FragmentExpensesBinding
 import com.example.tez.model.Category
 import com.example.tez.model.Expense
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.DocumentReference
-import java.text.SimpleDateFormat
-
-import java.util.*
+import com.google.firebase.firestore.Query
 
 class ExpensesFragment : Fragment() {
 
@@ -26,7 +25,7 @@ class ExpensesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var categoryAdapter: CategoryAdapter
-    private lateinit var adapter: TestExpenseAdapter
+    private lateinit var adapter: ExpenseAdapter
     private val expenseList = mutableListOf<Expense>()
 
     private val firestore = FirebaseFirestore.getInstance()
@@ -46,15 +45,17 @@ class ExpensesFragment : Fragment() {
             Category("Restaurant", R.drawable.ic_restaurant),
             Category("Car", R.drawable.ic_car),
             Category("Groceries", R.drawable.ic_grocery_store),
-            Category("Transport", R.drawable.ic_launcher_foreground),
+            Category("Transport", R.drawable.ic_transport),
             Category("Health", R.drawable.ic_health),
             Category("Travel", R.drawable.ic_travel),
-            Category("Shopping", R.drawable.ic_launcher_foreground),
+            Category("Shopping", R.drawable.ic_shopping),
             Category("House", R.drawable.ic_home),
             Category("Education", R.drawable.ic_school),
-            Category("Rent", R.drawable.ic_launcher_foreground),
-            Category("Fun", R.drawable.ic_launcher_foreground),
-            Category("Pet", R.drawable.ic_launcher_foreground)
+            Category("Rent", R.drawable.ic_rent_car),
+            Category("Fun", R.drawable.ic_fun),
+            Category("Pet", R.drawable.ic_pet),
+            Category("Other", R.drawable.ic_add)
+
         )
 
         // Kategori Adapter
@@ -65,7 +66,7 @@ class ExpensesFragment : Fragment() {
             binding.ivCategoryIcon.setImageResource(category.iconRes) // Seçilen kategori ikonunu göster
         }
 
-        binding.rvCategories.layoutManager = GridLayoutManager(context, 3)
+        binding.rvCategories.layoutManager = GridLayoutManager(context, 4)
         binding.rvCategories.adapter = categoryAdapter
 
         return view
@@ -100,12 +101,19 @@ class ExpensesFragment : Fragment() {
                 Toast.makeText(requireContext(), "Lütfen tüm bilgileri giriniz!", Toast.LENGTH_SHORT).show()
             }
         }
+
+        binding.toolbarExpenses.setNavigationOnClickListener {
+            findNavController().navigate(R.id.action_expensesFragment_to_homeFragment)
+        }
     }
 
     private fun setupRecyclerView() {
-        adapter = TestExpenseAdapter(expenseList)
-        binding.rvTestExpenses.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvTestExpenses.adapter = adapter
+        adapter = ExpenseAdapter(expenseList)
+        binding.rvExpenses.layoutManager = LinearLayoutManager(requireContext()).apply {
+            reverseLayout = false // 🔹 Doğru sıralama için
+            stackFromEnd = false  // 🔹 Listenin başından başlamasını sağla
+        }
+        binding.rvExpenses.adapter = adapter
     }
 
     private fun fetchExpensesFromFirestore() {
@@ -114,6 +122,7 @@ class ExpensesFragment : Fragment() {
         firestore.collection("users")
             .document(userId)
             .collection("expenses")
+            .orderBy("date", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 expenseList.clear()
@@ -131,19 +140,21 @@ class ExpensesFragment : Fragment() {
 
     private fun addExpenseToFirestore(expense: Expense) {
         if (userId.isEmpty()) return
+        val expenseWithTimestamp = expense.copy(date = com.google.firebase.Timestamp.now()) // ✅ Zaman eklendi
 
         val expenseRef: DocumentReference = firestore.collection("users")
             .document(userId)
             .collection("expenses")
             .document() // Yeni bir belge ekliyoruz
 
-        expenseRef.set(expense)
+        expenseRef.set(expenseWithTimestamp)
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Gider başarıyla eklendi!", Toast.LENGTH_SHORT).show()
 
                 // Ekledikten sonra listeyi güncelle
-                expenseList.add(expense)
-                adapter.notifyItemInserted(expenseList.size - 1)
+                expenseList.add(0, expenseWithTimestamp) // ✅ En üste ekle
+                adapter.notifyItemInserted(0)
+                binding.rvExpenses.scrollToPosition(0) // ✅ Yeni eklenen öğeye kaydır
 
                 // Formu temizle
                 binding.etName.text.clear()

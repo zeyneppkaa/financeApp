@@ -9,34 +9,33 @@
 
     <!-- Kategori İkonu (Yuvarlak Arka Plan) -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view_expense_category_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:radius="24dp"
+        android:id="@+id/card_view_income_category_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cardBackgroundColor="@color/transactions_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
-            android:id="@+id/iv_expense_icon"
+            android:id="@+id/iv_income_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
-            app:tint="@android:color/black"
+            app:tint="@android:color/white"
             tools:src="@drawable/ic_launcher_foreground" />
     </androidx.cardview.widget.CardView>
 
-    <!-- Harcama Adı -->
+    <!-- Gelir Adı -->
     <TextView
         android:id="@+id/tv_income_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Salary"
         android:textSize="16sp"
-        android:textStyle="bold"
         android:textColor="@android:color/black"
-        app:layout_constraintStart_toEndOf="@id/card_view_expense_category_icon"
-        app:layout_constraintTop_toTopOf="@id/card_view_expense_category_icon"
+        app:layout_constraintStart_toEndOf="@id/card_view_income_category_icon"
+        app:layout_constraintTop_toTopOf="@id/card_view_income_category_icon"
         android:layout_marginStart="12dp" />
 
     <!-- Kategori Adı -->
@@ -58,8 +57,7 @@
         android:layout_height="wrap_content"
         android:text="+ 1.570.000"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/holo_green_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_income_name"
         android:layout_marginEnd="12dp" />

@@ -9,8 +9,8 @@ import com.example.tez.model.Expense
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class TestExpenseAdapter(private val expenseList: List<Expense>) :
-    RecyclerView.Adapter<TestExpenseAdapter.ExpenseViewHolder>() {
+class ExpenseAdapter(private val expenseList: List<Expense>) :
+    RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>() {
 
     class ExpenseViewHolder(val binding: ItemExpenseBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -21,7 +21,9 @@ class TestExpenseAdapter(private val expenseList: List<Expense>) :
 
     override fun onBindViewHolder(holder: ExpenseViewHolder, position: Int) {
         val expense = expenseList[position]
+        val iconResId = categoryIconMap[expense.category] ?: R.drawable.ic_launcher_foreground
         holder.binding.apply {
+            ivExpenseIcon.setImageResource(iconResId)
             tvExpenseName.text = expense.name
             tvExpenseCategory.text = expense.category
             tvExpenseAmount.text = "- ${expense.amount} ₺"
@@ -30,19 +32,25 @@ class TestExpenseAdapter(private val expenseList: List<Expense>) :
             val formattedDate = dateFormat.format(expense.date.toDate()) // toDate() kullanarak Timestamp'i Date'e çeviriyoruz.
             tvExpenseDate.text = formattedDate
 
-            ivExpenseIcon.setImageResource(getCategoryIcon(expense.category))
         }
     }
 
     override fun getItemCount() = expenseList.size
 
-    private fun getCategoryIcon(category: String): Int {
-        return when (category) {
-            "Restaurant" -> R.drawable.ic_restaurant
-            "Transport" -> R.drawable.ic_transportation
-            "Health" -> R.drawable.ic_health
-            else -> R.drawable.ic_add
-        }
-    }
+    private val categoryIconMap = mapOf(
+        "Restaurant" to R.drawable.ic_restaurant,
+        "Car" to R.drawable.ic_car,
+        "Groceries" to R.drawable.ic_grocery_store,
+        "Transport" to R.drawable.ic_transport,
+        "Health" to R.drawable.ic_health,
+        "Travel" to R.drawable.ic_travel,
+        "Shopping" to R.drawable.ic_shopping,
+        "House" to R.drawable.ic_home,
+        "Education" to R.drawable.ic_school,
+        "Rent" to R.drawable.ic_rent_car,
+        "Fun" to R.drawable.ic_fun,
+        "Pet" to R.drawable.ic_pet,
+        "Other" to R.drawable.ic_add
+        )
 }
 

@@ -21,7 +21,11 @@
         android:id="@+id/expensesFragment"
         android:name="com.example.tez.ExpensesFragment"
         android:label="Expenses"
-        tools:layout="@layout/fragment_expenses"/>
+        tools:layout="@layout/fragment_expenses">
+        <action
+            android:id="@+id/action_expensesFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.tez.ProfileFragment"
@@ -36,7 +40,11 @@
         android:id="@+id/incomeFragment"
         android:name="com.example.tez.IncomeFragment"
         android:label="Income"
-        tools:layout="@layout/fragment_income" />
+        tools:layout="@layout/fragment_income" >
+        <action
+            android:id="@+id/action_incomeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/logInFragment"
         android:name="com.example.tez.LogInFragment"
