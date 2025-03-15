@@ -14,5 +14,7 @@
     <color name="selected_category">#C8C7C8</color> <!-- Aktif kategori rengi -->
     <color name="default_category">#FFFFFF</color> <!-- Varsayılan kategori rengi -->
     <color name="selected_category_text">#FFFFFF</color> <!-- Aktif kategori text rengi -->
-    <color name="default_category_text">#000000</color> <!-- Varsayılan kategori text rengi -->
+    <color name="default_category_text">#075473</color> <!-- Varsayılan kategori text rengi -->
+    <color name="transactions_text">#075473</color>
+    <color name="expense_input_bg">#0A7AA6</color>
 </resources>

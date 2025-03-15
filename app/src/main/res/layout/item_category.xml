@@ -7,7 +7,7 @@
     android:id="@+id/card_view"
     app:cardCornerRadius="20dp"
     app:cardElevation="4dp"
-    android:layout_margin="12dp">
+    android:layout_margin="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,15 +21,15 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/ic_launcher_foreground"
-            app:tint="#ffaa66cc" />
+            app:tint="#57C6F2" />
 
         <TextView
             android:id="@+id/tv_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@android:color/holo_purple"
-            android:paddingTop="4dp"
+            android:textSize="12sp"
+            android:textColor="#57C6F2"
+            android:paddingBottom="4dp"
             android:textStyle="bold"
             android:text="Category"/>
     </LinearLayout>
