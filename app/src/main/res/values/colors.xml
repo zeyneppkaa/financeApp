@@ -17,4 +17,5 @@
     <color name="default_category_text">#075473</color> <!-- Varsayılan kategori text rengi -->
     <color name="transactions_text">#075473</color>
     <color name="expense_input_bg">#0A7AA6</color>
+    <color name="dark_navy_blue">#075473</color>
 </resources>
