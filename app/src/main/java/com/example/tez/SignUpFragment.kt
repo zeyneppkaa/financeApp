@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.tez.databinding.FragmentSignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignUpFragment : Fragment() {
 
@@ -57,19 +58,43 @@ class SignUpFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            registerUser(email, password)
+            registerUser(email, password, name, phone, birthDate)
         }
+
     }
 
-    private fun registerUser(email: String, password: String) {
+    private fun registerUser(email: String, password: String, name: String, phone: String, birthDate: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
-                    sendEmailVerification(user)
+                    user?.let {
+                        saveUserToFirestore(it.uid, name, email, phone, birthDate)
+                        sendEmailVerification(it)
+                    }
                 } else {
                     Toast.makeText(requireContext(), "Kayıt başarısız: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                 }
+            }
+    }
+
+    private fun saveUserToFirestore(userId: String, name: String, email: String, phone: String, birthDate: String) {
+        val db = FirebaseFirestore.getInstance()
+        val userMap = hashMapOf(
+            "name" to name,
+            "email" to email,
+            "phone" to phone,
+            "birthDate" to birthDate,
+            "created_at" to System.currentTimeMillis()
+        )
+
+        db.collection("users").document(userId)
+            .set(userMap)
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Kullanıcı bilgileri kaydedildi!", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(requireContext(), "Firestore hata: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 
