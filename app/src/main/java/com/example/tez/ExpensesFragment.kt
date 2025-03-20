@@ -14,10 +14,13 @@ import com.example.tez.adapters.ExpenseAdapter
 import com.example.tez.databinding.FragmentExpensesBinding
 import com.example.tez.model.Category
 import com.example.tez.model.Expense
+import com.example.tez.utils.FilterDropdownHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
+import java.util.Calendar
+import java.util.Date
 
 class ExpensesFragment : Fragment() {
 
@@ -32,6 +35,7 @@ class ExpensesFragment : Fragment() {
     private val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     private var selectedCategory: Category? = null
+    private var selectedFilter: String = "See All  v"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,14 +64,22 @@ class ExpensesFragment : Fragment() {
 
         // Kategori Adapter
         categoryAdapter = CategoryAdapter(categories) { category ->
-            selectedCategory = category
-            binding.expenseInputLayout.visibility = View.VISIBLE
-            binding.btnSave.visibility = View.VISIBLE
-            binding.ivCategoryIcon.setImageResource(category.iconRes) // Seçilen kategori ikonunu göster
+            if (category == null) {
+                selectedCategory = null
+                binding.expenseInputLayout.visibility = View.GONE
+                binding.btnSave.visibility = View.GONE
+            } else {
+                selectedCategory = category
+                binding.expenseInputLayout.visibility = View.VISIBLE
+                binding.btnSave.visibility = View.VISIBLE
+                binding.ivCategoryIcon.setImageResource(category.iconRes)
+            }
         }
 
         binding.rvCategories.layoutManager = GridLayoutManager(context, 4)
         binding.rvCategories.adapter = categoryAdapter
+
+        binding.tvSeeAll.text = selectedFilter
 
         return view
     }
@@ -77,11 +89,17 @@ class ExpensesFragment : Fragment() {
 
         // RecyclerView kurulumunu yap
         setupRecyclerView()
-
-        // Firestore'dan verileri al
         fetchExpensesFromFirestore()
 
-        // Save butonuna tıklama işlemi
+        val filterOptions = listOf("See All", "Last 7 days", "This month", "Last 1 month", "Last 3 months")
+
+        binding.tvSeeAll.setOnClickListener {
+            FilterDropdownHelper(requireContext(), binding.tvSeeAll, filterOptions) { selectedFilter ->
+                applyFilter(selectedFilter)
+            }.showFilterMenu()
+        }
+
+
         binding.btnSave.setOnClickListener {
             val name = binding.etName.text.toString().trim()
             val amount = binding.etPrice.text.toString().trim()
@@ -110,32 +128,57 @@ class ExpensesFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter = ExpenseAdapter(expenseList)
         binding.rvExpenses.layoutManager = LinearLayoutManager(requireContext()).apply {
-            reverseLayout = false // 🔹 Doğru sıralama için
-            stackFromEnd = false  // 🔹 Listenin başından başlamasını sağla
+            reverseLayout = false
+            stackFromEnd = false
         }
         binding.rvExpenses.adapter = adapter
     }
 
-    private fun fetchExpensesFromFirestore() {
+    private fun fetchExpensesFromFirestore(filter: String = "Tümü") {
         if (userId.isEmpty()) return
 
-        firestore.collection("users")
+        val expensesRef = firestore.collection("users")
             .document(userId)
             .collection("expenses")
-            .orderBy("date", Query.Direction.DESCENDING)
-            .get()
+
+        val query: Query = when (filter) {
+            "Last 7 days" -> expensesRef.whereGreaterThan("date", getPastDate(7))
+            "This month" -> expensesRef.whereGreaterThan("date", getMonthStart())
+            "Last 1 month" -> expensesRef.whereGreaterThan("date", getPastDate(30))
+            "Last 3 months" -> expensesRef.whereGreaterThan("date", getPastDate(90))
+            else -> expensesRef
+        }.orderBy("date", Query.Direction.DESCENDING)
+
+        query.get()
             .addOnSuccessListener { result ->
                 expenseList.clear()
                 for (document in result) {
                     val expense = document.toObject(Expense::class.java)
                     expenseList.add(expense)
                 }
-                adapter.notifyDataSetChanged() // Veriler başarıyla alındığında RecyclerView'u güncelle
+                adapter.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
-                // Hata yönetimi (örneğin: hata mesajı göstermek)
                 Toast.makeText(requireContext(), "Veri alınamadı: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun applyFilter(filter: String) {
+        selectedFilter = filter
+        binding.tvSeeAll.text = selectedFilter
+        fetchExpensesFromFirestore(selectedFilter)
+    }
+
+    private fun getPastDate(days: Int): Date {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -days)
+        return calendar.time
+    }
+
+    private fun getMonthStart(): Date {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        return calendar.time
     }
 
     private fun addExpenseToFirestore(expense: Expense) {
@@ -145,7 +188,7 @@ class ExpensesFragment : Fragment() {
         val expenseRef: DocumentReference = firestore.collection("users")
             .document(userId)
             .collection("expenses")
-            .document() // Yeni bir belge ekliyoruz
+            .document()
 
         expenseRef.set(expenseWithTimestamp)
             .addOnSuccessListener {

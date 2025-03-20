@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tez.R
 import com.example.tez.model.Category
 
-class CategoryAdapter(private val categories: List<Category>, private val onItemClick: (Category) -> Unit) :
-    RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+class CategoryAdapter(
+    private val categories: List<Category>,
+    private val onItemClick: (Category?) -> Unit
+) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     private var selectedCategory: Category? = null
 
@@ -34,9 +36,14 @@ class CategoryAdapter(private val categories: List<Category>, private val onItem
             }
 
             itemView.setOnClickListener {
-                selectedCategory = category
-                onItemClick(category)
-                notifyDataSetChanged()  // Seçilen öğeyi güncelle
+                selectedCategory = if (selectedCategory == category) {
+                    onItemClick(null) // Seçimi kaldır
+                    null
+                } else {
+                    onItemClick(category)
+                    category
+                }
+                notifyDataSetChanged()
             }
         }
     }
