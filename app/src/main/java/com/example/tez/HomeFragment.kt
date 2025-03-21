@@ -24,11 +24,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.bttnTvExpenses.setOnClickListener {
+        binding.btnExpenses.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToExpensesFragment()
             findNavController().navigate(action)
         }
-        binding.bttnTvIncome.setOnClickListener {
+        binding.btnIncomes.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToIncomeFragment()
             findNavController().navigate(action)
         }

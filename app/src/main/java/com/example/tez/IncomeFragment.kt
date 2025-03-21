@@ -129,7 +129,7 @@ class IncomeFragment : Fragment() {
         binding.rvIncomes.adapter = incomeAdapter
     }
 
-    private fun fetchIncomesFromFirestore(filter: String = "See All") {
+    private fun fetchIncomesFromFirestore(filter: String = "See All  v") {
         if (userId.isEmpty()) return
 
         val incomesRef = firestore.collection("users")

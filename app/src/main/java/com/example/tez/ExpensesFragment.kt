@@ -134,7 +134,7 @@ class ExpensesFragment : Fragment() {
         binding.rvExpenses.adapter = adapter
     }
 
-    private fun fetchExpensesFromFirestore(filter: String = "Tümü") {
+    private fun fetchExpensesFromFirestore(filter: String = "See All  v") {
         if (userId.isEmpty()) return
 
         val expensesRef = firestore.collection("users")
@@ -195,9 +195,9 @@ class ExpensesFragment : Fragment() {
                 Toast.makeText(requireContext(), "Gider başarıyla eklendi!", Toast.LENGTH_SHORT).show()
 
                 // Ekledikten sonra listeyi güncelle
-                expenseList.add(0, expenseWithTimestamp) // ✅ En üste ekle
+                expenseList.add(0, expenseWithTimestamp)
                 adapter.notifyItemInserted(0)
-                binding.rvExpenses.scrollToPosition(0) // ✅ Yeni eklenen öğeye kaydır
+                binding.rvExpenses.scrollToPosition(0)
 
                 // Formu temizle
                 binding.etName.text.clear()

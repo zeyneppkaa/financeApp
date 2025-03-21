@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp">
+    android:paddingVertical="12dp">
 
     <!-- Kategori İkonu (Yuvarlak Arka Plan) -->
     <androidx.cardview.widget.CardView
@@ -13,6 +13,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:cardBackgroundColor="@color/transactions_text"
+        app:cardCornerRadius="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -50,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_income_name"
         android:layout_marginTop="2dp" />
 
-    <!-- Harcama Tutarı -->
+    <!-- Gelir Tutarı -->
     <TextView
         android:id="@+id/tv_income_amount"
         android:layout_width="wrap_content"
