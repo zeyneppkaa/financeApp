@@ -4,316 +4,251 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    android:background="@color/white"
+    tools:context=".HomeFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="kaydırmali"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <!-- Profil ve Bildirim -->
+    <ImageView
+        android:id="@+id/ivProfile"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="30dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Hello, Daisy"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/ivProfile"
+        app:layout_constraintStart_toEndOf="@id/ivProfile"
+        app:layout_constraintTop_toTopOf="@id/ivProfile" />
+
+    <ImageView
+        android:id="@+id/ivNotification"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="18dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_notification"
+        app:layout_constraintBottom_toBottomOf="@id/ivProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivProfile" />
+
+    <!-- Bakiye Kartı -->
+
+    <!-- Ana Butonlar -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/balanceContainer"
+        android:layout_width="0dp"
+        android:layout_height="220dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/bg_balance"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/ivProfile">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvTotalBalanceTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="10dp"
+            android:text="Total Balance"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="400dp">
+        <TextView
+            android:id="@+id/tvTotalBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$18,450.00"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tvTotalBalanceTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvTotalBalanceTitle" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_marginBottom="150dp"
-                    android:background="@drawable/top_background"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+        <View
+            android:id="@+id/view"
+            android:layout_width="2dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/iconIncome"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iconIncome" />
 
-                    <TextView
-                        android:id="@+id/tv_hello_user"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Hello User!"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.16"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.39" />
+        <ImageView
+            android:id="@+id/iconIncome"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/income_home_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalBalance" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvTotalIncome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Total Income"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/iconIncome"
+            app:layout_constraintStart_toEndOf="@id/iconIncome"
+            app:layout_constraintTop_toTopOf="@+id/iconIncome" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="320dp"
-                    android:layout_height="225dp"
-                    android:layout_marginStart="45dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-                    app:layout_constraintVertical_bias="1.0">
+        <TextView
+            android:id="@+id/tvTotalIncomeAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="+$7,783.00"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/iconIncome"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalIncome" />
 
-                    <com.google.android.material.progressindicator.CircularProgressIndicator
-                        android:id="@+id/progress_circular"
-                        android:layout_width="175dp"
-                        android:layout_height="175dp"
-                        android:layout_marginHorizontal="125dp"
-                        app:indicatorSize="125dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/iconExpense"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/expense_home_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvTotalExpense"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalBalance" />
 
-                    <ImageView
-                        android:id="@+id/iv_mavi_yuvarlak"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="mavi yuvarlak"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/progress_circular"
-                        app:layout_constraintTop_toBottomOf="@+id/progress_circular"
-                        app:srcCompat="@drawable/darkblue_circle" />
+        <TextView
+            android:id="@+id/tvTotalExpense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Total Expense"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalBalance" />
 
-                    <TextView
-                        android:id="@+id/tv_income"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Income"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.02"
-                        app:layout_constraintStart_toEndOf="@+id/iv_mavi_yuvarlak"
-                        app:layout_constraintTop_toBottomOf="@+id/progress_circular" />
+        <TextView
+            android:id="@+id/tvTotalExpenseAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="-$1,187.40"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/iconExpense"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalExpense" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <ImageView
-                        android:id="@+id/iv_gri_yuvarlak"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="gri yuvarlak"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.05"
-                        app:layout_constraintStart_toEndOf="@+id/tv_income"
-                        app:layout_constraintTop_toBottomOf="@+id/progress_circular"
-                        app:srcCompat="@drawable/grey_circle" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/balanceContainer">
 
-                    <TextView
-                        android:id="@+id/tv_expenses"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Expenses"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/iv_gri_yuvarlak"
-                        app:layout_constraintTop_toTopOf="@+id/iv_gri_yuvarlak" />
+        <ImageButton
+            android:id="@+id/btnExpenses"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/home_buttons_circle"
+            android:padding="8dp"
+            android:src="@drawable/ic_expenses_home_btn"
+            app:layout_constraintEnd_toStartOf="@id/btnIncomes"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/tv_total_money"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="€6,842.50"
-                        android:textColor="@color/dark_blue"
-                        android:textSize="19sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/progress_circular"
-                        app:layout_constraintEnd_toEndOf="@+id/progress_circular"
-                        app:layout_constraintStart_toStartOf="@+id/progress_circular"
-                        app:layout_constraintTop_toTopOf="@+id/progress_circular" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Expenses"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/btnExpenses"
+            app:layout_constraintStart_toStartOf="@id/btnExpenses"
+            app:layout_constraintTop_toBottomOf="@id/btnExpenses" />
 
-                    <TextView
-                        android:id="@+id/tv_total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Total"
-                        android:textColor="@color/dark_blue"
-                        android:layout_marginTop="8dp"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="@+id/tv_total_money"
-                        app:layout_constraintStart_toStartOf="@+id/tv_total_money"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_total_money" />
+        <ImageButton
+            android:id="@+id/btnIncomes"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/home_buttons_circle"
+            android:padding="8dp"
+            android:src="@drawable/ic_incomes_home_btn"
+            app:layout_constraintEnd_toStartOf="@id/btnBills"
+            app:layout_constraintStart_toEndOf="@id/btnExpenses"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Incomes"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/btnIncomes"
+            app:layout_constraintStart_toStartOf="@id/btnIncomes"
+            app:layout_constraintTop_toBottomOf="@id/btnIncomes" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="34dp"
-                android:layout_marginEnd="44dp"
-                android:background="@color/light_blue"
-                android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/btnBills"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/home_buttons_circle"
+            android:padding="8dp"
+            android:src="@drawable/ic_bills_home_btn"
+            app:layout_constraintEnd_toStartOf="@id/btnAnalysis"
+            app:layout_constraintStart_toEndOf="@id/btnIncomes"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_weight="0.333"
-                    android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bills"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/btnBills"
+            app:layout_constraintStart_toStartOf="@id/btnBills"
+            app:layout_constraintTop_toBottomOf="@id/btnBills" />
 
+        <ImageButton
+            android:id="@+id/btnAnalysis"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/home_buttons_circle"
+            android:padding="8dp"
+            android:src="@drawable/ic_analysis_home_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnBills"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/analiz_income"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Income"
-                        android:textColor="@color/dark_blue" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Analysis"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/btnAnalysis"
+            app:layout_constraintStart_toStartOf="@id/btnAnalysis"
+            app:layout_constraintTop_toBottomOf="@id/btnAnalysis" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/analiz_total_money_income"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="€9.747"
-                        android:textSize="21sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/analiz_income_yuzde"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="+25%"
-                        android:textColor="@color/green" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@color/dark_blue" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="0.333"
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:id="@+id/analiz_expenses"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Expenses"
-                        android:textColor="@color/dark_blue" />
-
-                    <TextView
-                        android:id="@+id/analiz_total_money_expenses"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="€2.349"
-                        android:textSize="21sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/analiz_expenses_yuzde"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="-12%"
-                        android:textColor="@color/red" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@color/dark_blue" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_weight="0.333"
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:id="@+id/analiz_bills"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Bills"
-                        android:textColor="@color/dark_blue" />
-
-                    <TextView
-                        android:id="@+id/analiz_total_money_bills"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="€628"
-                        android:textSize="21sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/analiz_bills_yuzde"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="+10%"
-                        android:textColor="@color/green" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/bttn_tv_income"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="75dp"
-                    android:layout_marginTop="15dp"
-                    android:backgroundTint="@color/dark_blue"
-                    android:text="Income" />
-
-                <Button
-                    android:id="@+id/bttn_tv_expenses"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="75dp"
-                    android:layout_marginTop="5dp"
-                    android:backgroundTint="@color/dark_blue"
-                    android:text="Expenses" />
-
-                <Button
-                    android:id="@+id/bttn_tv_bills"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="75dp"
-                    android:layout_marginTop="5dp"
-                    android:backgroundTint="@color/dark_blue"
-                    android:text="Bills" />
-
-                <Button
-                    android:id="@+id/bttn_tv_analysis"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="75dp"
-                    android:layout_marginTop="5dp"
-                    android:backgroundTint="@color/dark_blue"
-                    android:text="Analysis" />
-
-
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
