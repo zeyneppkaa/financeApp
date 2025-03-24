@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="88dp"
     android:id="@+id/card_view"
-    app:cardCornerRadius="20dp"
+    app:cardCornerRadius="12dp"
     app:cardElevation="4dp"
     android:layout_margin="8dp">
 
@@ -13,24 +13,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
-        android:padding="8dp">
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/iv_category_icon"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/ic_launcher_foreground"
-            app:tint="#57C6F2" />
+             />
 
         <TextView
             android:id="@+id/tv_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
             android:textSize="12sp"
             android:textColor="#57C6F2"
-            android:paddingBottom="4dp"
-            android:textStyle="bold"
             android:text="Category"/>
     </LinearLayout>
 

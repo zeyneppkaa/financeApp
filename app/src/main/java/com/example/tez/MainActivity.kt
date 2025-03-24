@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.logInFragment, R.id.signUpFragment -> bottomNavigationView.visibility = View.GONE
+                R.id.logInFragment, R.id.signUpFragment, R.id.temporaryBillsFragment, R.id.addBillFragment -> bottomNavigationView.visibility = View.GONE
                 else -> bottomNavigationView.visibility = View.VISIBLE
             }
         }
