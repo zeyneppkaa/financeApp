@@ -28,10 +28,10 @@ class CategoryAdapter(
 
             // Seçilen kategorinin görünümünü "aktif" hale getirme
             if (selectedCategory == category) {
-                cardView.setCardBackgroundColor(itemView.context.getColor(R.color.expense_input_bg)) // Aktif kategori için arka plan rengi
+                cardView.setCardBackgroundColor(itemView.context.getColor(R.color.selected_category_bg)) // Aktif kategori için arka plan rengi
                 textView.setTextColor(itemView.context.getColor(R.color.selected_category_text)) // Text rengi
             } else {
-                cardView.setCardBackgroundColor(itemView.context.getColor(R.color.default_category))  // Diğerleri için varsayılan arka plan
+                cardView.setCardBackgroundColor(itemView.context.getColor(R.color.default_category_bg))  // Diğerleri için varsayılan arka plan
                 textView.setTextColor(itemView.context.getColor(R.color.default_category_text)) // Diğerleri için text rengi
             }
 

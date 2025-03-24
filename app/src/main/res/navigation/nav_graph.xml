@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_homeFragment_to_incomeFragment"
             app:destination="@id/incomeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_temporaryBillsFragment"
+            app:destination="@id/temporaryBillsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_billsFragment"
+            app:destination="@id/billsFragment" />
     </fragment>
     <fragment
         android:id="@+id/expensesFragment"
@@ -68,6 +74,25 @@
             app:destination="@id/logInFragment"
             />
     </fragment>
+    <fragment
+        android:id="@+id/temporaryBillsFragment"
+        android:name="com.example.tez.TemporaryBillsFragment"
+        android:label="fragment_temporary_bills"
+        tools:layout="@layout/fragment_temporary_bills" >
+        <action
+            android:id="@+id/action_temporaryBillsFragment_to_addBillFragment"
+            app:destination="@id/addBillFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addBillFragment"
+        android:name="com.example.tez.AddBillFragment"
+        android:label="fragment_add_bill"
+        tools:layout="@layout/fragment_add_bill" />
+    <fragment
+        android:id="@+id/billsFragment"
+        android:name="com.example.tez.BillsFragment"
+        android:label="fragment_bills"
+        tools:layout="@layout/fragment_bills" />
 
 
 </navigation>
