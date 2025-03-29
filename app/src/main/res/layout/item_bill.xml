@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="4dp"
+    android:outlineSpotShadowColor="@color/bill_status"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:gravity="center_vertical">
+
+        <!-- bill icon -->
+        <ImageView
+            android:id="@+id/ivBillIcon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_launcher_foreground"
+            android:contentDescription="Bill Icon" />
+
+        <!-- bill information -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="12dp">
+
+            <TextView
+                android:id="@+id/tvBillName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Electricity"
+                android:textColor="@color/bill_name_text_default"
+                android:textSize="18sp"
+                android:fontFamily="@font/poppins_semi_bold" />
+
+            <TextView
+                android:id="@+id/tvBillStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Paid"
+                android:textColor="@color/bill_status"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- bill amount -->
+        <TextView
+            android:id="@+id/tvBillAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$115.00"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:fontFamily="@font/poppins_semi_bold" />
+
+        <!-- edit and confirm buttons -->
+        <ImageView
+            android:id="@+id/btnEditBill"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/ic_edit"
+            android:contentDescription="Edit Bill" />
+
+        <ImageView
+            android:id="@+id/btnConfirmBill"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_check_default"
+            android:contentDescription="Confirm Bill" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

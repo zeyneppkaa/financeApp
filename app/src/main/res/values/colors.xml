@@ -20,4 +20,8 @@
     <color name="dark_navy_blue">#075473</color>
     <color name="temporary_bills_background">#0FB2F2</color>
     <color name="add_bill_fragment_bg">#00BCE4</color>
+    <color name="bill_status">#80000000</color>
+    <color name="bill_name_text_default">#1793D1</color>
+    <color name="bills_background">#0FB2F2</color>
+
 </resources>

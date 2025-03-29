@@ -10,12 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tez.R
 import com.example.tez.model.Category
 
+enum class SelectionMode {
+    SINGLE, MULTIPLE
+}
 class CategoryAdapter(
     private val categories: List<Category>,
-    private val onItemClick: (Category?) -> Unit
+    private val selectionMode: SelectionMode,
+    private val onItemClick: (List<Category>) -> Unit
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
-    private var selectedCategory: Category? = null
+    private val selectedCategories = mutableSetOf<Category>()
 
     inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textView: TextView = itemView.findViewById(R.id.tv_category)
@@ -26,23 +30,23 @@ class CategoryAdapter(
             textView.text = category.name
             imageView.setImageResource(category.iconRes)
 
-            // Seçilen kategorinin görünümünü "aktif" hale getirme
-            if (selectedCategory == category) {
-                cardView.setCardBackgroundColor(itemView.context.getColor(R.color.selected_category_bg)) // Aktif kategori için arka plan rengi
-                textView.setTextColor(itemView.context.getColor(R.color.selected_category_text)) // Text rengi
+            val isSelected = selectedCategories.contains(category)
+
+            if (isSelected) {
+                cardView.setCardBackgroundColor(itemView.context.getColor(R.color.selected_category_bg))
+                textView.setTextColor(itemView.context.getColor(R.color.selected_category_text))
             } else {
-                cardView.setCardBackgroundColor(itemView.context.getColor(R.color.default_category_bg))  // Diğerleri için varsayılan arka plan
-                textView.setTextColor(itemView.context.getColor(R.color.default_category_text)) // Diğerleri için text rengi
+                cardView.setCardBackgroundColor(itemView.context.getColor(R.color.default_category_bg))
+                textView.setTextColor(itemView.context.getColor(R.color.default_category_text))
             }
 
             itemView.setOnClickListener {
-                selectedCategory = if (selectedCategory == category) {
-                    onItemClick(null) // Seçimi kaldır
-                    null
+                if (selectedCategories.contains(category)) {
+                    selectedCategories.remove(category)
                 } else {
-                    onItemClick(category)
-                    category
+                    selectedCategories.add(category)
                 }
+                onItemClick(selectedCategories.toList())
                 notifyDataSetChanged()
             }
         }
@@ -59,10 +63,10 @@ class CategoryAdapter(
 
     override fun getItemCount() = categories.size
 
-    fun getSelectedCategory(): Category? = selectedCategory
-
-    fun clearSelectedCategory() {
-        selectedCategory = null
-        notifyDataSetChanged()  // RecyclerView'u yenile
+    fun setSelectedCategories(selected: Set<Category>) {
+        selectedCategories.clear()
+        selectedCategories.addAll(selected)
+        notifyDataSetChanged()
     }
 }
+

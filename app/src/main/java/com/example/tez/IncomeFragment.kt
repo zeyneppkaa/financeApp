@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tez.adapters.CategoryAdapter
 import com.example.tez.adapters.IncomeAdapter
+import com.example.tez.adapters.SelectionMode
 import com.example.tez.databinding.FragmentIncomeBinding
 import com.example.tez.model.Category
 import com.example.tez.model.Incomes
@@ -21,7 +22,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import java.util.Calendar
 import java.util.Date
-
 
 class IncomeFragment : Fragment() {
 
@@ -36,7 +36,7 @@ class IncomeFragment : Fragment() {
     private val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     private var selectedCategory: Category? = null
-    private var selectedFilter: String = "See All  v"
+    private var selectedFilter: String = "See All"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,36 +45,7 @@ class IncomeFragment : Fragment() {
         _binding = FragmentIncomeBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // Kategoriler
-        val categories = listOf(
-            Category("Salary", R.drawable.baseline_work_24),
-            Category("Investment", R.drawable.baseline_monetization_on_24),
-            Category("Freelance", R.drawable.baseline_computer_24),
-            Category("Rental ", R.drawable.baseline_other_houses_24),
-            Category("Bonus", R.drawable.baseline_add_card_24),
-            Category("Crypto", R.drawable.baseline_enhanced_encryption_24),
-            Category("Gift", R.drawable.baseline_card_giftcard_24),
-            Category("Refund", R.drawable.baseline_refresh_24),
-            Category("Other", R.drawable.ic_add),
-
-        )
-
-        categoryAdapter = CategoryAdapter(categories) { category ->
-            if (category == null) {
-                selectedCategory = null
-                binding.incomeInputLayout.visibility = View.GONE
-                binding.btnSaveIncome.visibility = View.GONE
-            } else {
-                selectedCategory = category
-                binding.incomeInputLayout.visibility = View.VISIBLE
-                binding.btnSaveIncome.visibility = View.VISIBLE
-                binding.ivCategoryIcon.setImageResource(category.iconRes)
-            }
-        }
-
-        binding.rvIncomeCategories.layoutManager = GridLayoutManager(context, 4)
-        binding.rvIncomeCategories.adapter = categoryAdapter
-
+        setupCategoryRecyclerView()
         binding.tvSeeAll.text = selectedFilter
 
         return view
@@ -83,7 +54,6 @@ class IncomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // RecyclerView kurulumunu yap
         setupRecyclerView()
         fetchIncomesFromFirestore()
 
@@ -98,17 +68,14 @@ class IncomeFragment : Fragment() {
         binding.btnSaveIncome.setOnClickListener {
             val name = binding.etName.text.toString().trim()
             val amount = binding.etPrice.text.toString().trim()
-            //val date = com.google.firebase.firestore.Timestamp(Date()) // Şu anki tarih ve saat
 
             if (selectedCategory != null && name.isNotEmpty() && amount.isNotEmpty()) {
                 val income = Incomes(
                     amount = amount.toDouble(),
                     category = selectedCategory!!.name,
-                    //date = date,
                     name = name
                 )
 
-                // Veriyi Firestore'a kaydet
                 addIncomeToFirestore(income)
             } else {
                 Toast.makeText(requireContext(), "Lütfen tüm bilgileri giriniz!", Toast.LENGTH_SHORT).show()
@@ -117,6 +84,39 @@ class IncomeFragment : Fragment() {
 
         binding.toolbarIncome.setNavigationOnClickListener {
             findNavController().navigate(R.id.action_incomeFragment_to_homeFragment)
+        }
+    }
+
+    private fun setupCategoryRecyclerView() {
+        val categories = listOf(
+            Category("Salary", R.drawable.baseline_work_24),
+            Category("Investment", R.drawable.baseline_monetization_on_24),
+            Category("Freelance", R.drawable.baseline_computer_24),
+            Category("Rental", R.drawable.baseline_other_houses_24),
+            Category("Bonus", R.drawable.baseline_add_card_24),
+            Category("Crypto", R.drawable.baseline_enhanced_encryption_24),
+            Category("Gift", R.drawable.baseline_card_giftcard_24),
+            Category("Refund", R.drawable.baseline_refresh_24),
+            Category("Other", R.drawable.ic_add),
+        )
+
+        categoryAdapter = CategoryAdapter(categories, SelectionMode.SINGLE) { selectedCategories ->
+            selectedCategory = selectedCategories.firstOrNull()
+            updateIncomeInputVisibility()
+        }
+
+        binding.rvIncomeCategories.layoutManager = GridLayoutManager(context, 4)
+        binding.rvIncomeCategories.adapter = categoryAdapter
+    }
+
+    private fun updateIncomeInputVisibility() {
+        if (selectedCategory != null) {
+            binding.incomeInputLayout.visibility = View.VISIBLE
+            binding.btnSaveIncome.visibility = View.VISIBLE
+            binding.ivCategoryIcon.setImageResource(selectedCategory!!.iconRes)
+        } else {
+            binding.incomeInputLayout.visibility = View.GONE
+            binding.btnSaveIncome.visibility = View.GONE
         }
     }
 
@@ -129,7 +129,7 @@ class IncomeFragment : Fragment() {
         binding.rvIncomes.adapter = incomeAdapter
     }
 
-    private fun fetchIncomesFromFirestore(filter: String = "See All  v") {
+    private fun fetchIncomesFromFirestore(filter: String = "See All") {
         if (userId.isEmpty()) return
 
         val incomesRef = firestore.collection("users")
@@ -148,8 +148,8 @@ class IncomeFragment : Fragment() {
             .addOnSuccessListener { result ->
                 incomeList.clear()
                 for (document in result) {
-                    val expense = document.toObject(Incomes::class.java)
-                    incomeList.add(expense)
+                    val income = document.toObject(Incomes::class.java)
+                    incomeList.add(income)
                 }
                 incomeAdapter.notifyDataSetChanged()
             }
@@ -180,32 +180,27 @@ class IncomeFragment : Fragment() {
         if (userId.isEmpty()) return
         val incomeWithTimestamp = income.copy(date = com.google.firebase.Timestamp.now())
 
-        val expenseRef: DocumentReference = firestore.collection("users")
+        val incomeRef: DocumentReference = firestore.collection("users")
             .document(userId)
             .collection("incomes")
-            .document() // Yeni bir belge ekliyoruz
+            .document()
 
-        expenseRef.set(incomeWithTimestamp)
+        incomeRef.set(incomeWithTimestamp)
             .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Gider başarıyla eklendi!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Gelir başarıyla eklendi!", Toast.LENGTH_SHORT).show()
 
-                // Ekledikten sonra listeyi güncelle
                 incomeList.add(0, incomeWithTimestamp)
                 incomeAdapter.notifyItemInserted(0)
                 binding.rvIncomes.scrollToPosition(0)
 
-                // Formu temizle
                 binding.etName.text.clear()
                 binding.etPrice.text.clear()
-                binding.incomeInputLayout.visibility = View.GONE
-                binding.btnSaveIncome.visibility = View.GONE
+                updateIncomeInputVisibility()
             }
             .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(), "Gider eklenemedi: ${exception.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Gelir eklenemedi: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
