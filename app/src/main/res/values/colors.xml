@@ -23,5 +23,7 @@
     <color name="bill_status">#80000000</color>
     <color name="bill_name_text_default">#1793D1</color>
     <color name="bills_background">#0FB2F2</color>
+    <color name="paid_bill_item_bg">#D9D9D9</color>
+
 
 </resources>

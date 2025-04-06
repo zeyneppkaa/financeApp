@@ -41,13 +41,19 @@ class CategoryAdapter(
             }
 
             itemView.setOnClickListener {
-                if (selectedCategories.contains(category)) {
-                    selectedCategories.remove(category)
-                } else {
+                // Eğer seçim modu SINGLE ise, sadece bir kategori seçili olabilir
+                if (selectionMode == SelectionMode.SINGLE) {
+                    selectedCategories.clear() // Tek bir seçim için önceki seçimleri temizle
                     selectedCategories.add(category)
+                } else {
+                    if (selectedCategories.contains(category)) {
+                        selectedCategories.remove(category)
+                    } else {
+                        selectedCategories.add(category)
+                    }
                 }
-                onItemClick(selectedCategories.toList())
-                notifyDataSetChanged()
+                onItemClick(selectedCategories.toList()) // Seçilen kategorileri geri gönder
+                notifyDataSetChanged() // Görünümü güncelle
             }
         }
     }
