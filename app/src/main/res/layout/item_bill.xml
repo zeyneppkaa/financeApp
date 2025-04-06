@@ -11,6 +11,7 @@
     android:background="@color/white">
 
     <LinearLayout
+        android:id="@+id/itemBillLinear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -59,7 +60,21 @@
             android:text="$115.00"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:fontFamily="@font/poppins_semi_bold" />
+            android:fontFamily="@font/poppins_medium" />
+
+        <EditText
+            android:id="@+id/etBillAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:textSize="18sp"
+            android:textColor="@color/grey"
+            android:fontFamily="@font/poppins_medium"
+            android:visibility="gone"
+            android:background="@null"
+            android:maxLines="1"
+            android:hint="Enter amount"
+            android:imeOptions="actionDone"/>
 
         <!-- edit and confirm buttons -->
         <ImageView

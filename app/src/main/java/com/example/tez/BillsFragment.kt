@@ -1,10 +1,12 @@
 package com.example.tez
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tez.adapter.BillAdapter
@@ -28,10 +30,13 @@ class BillsFragment : Fragment() {
     ): View? {
         _binding = FragmentBillsBinding.inflate(inflater, container, false)
 
-        billAdapter = BillAdapter(billList,
+        billAdapter = BillAdapter(
+            billList,
             onEditClick = { bill -> editBill(bill) },
-            onConfirmClick = { bill -> confirmBill(bill) }
+            onConfirmClick = { bill -> confirmBill(bill) },
+            onAmountChanged = { bill -> updateBillAmountInFirestore(bill) }
         )
+
 
         binding.rvBills.layoutManager = LinearLayoutManager(requireContext())
         binding.rvBills.adapter = billAdapter
@@ -53,6 +58,23 @@ class BillsFragment : Fragment() {
         }
     }
 
+    // Firestore'a güncellenen miktarı kaydetme fonksiyonu
+    private fun updateBillAmountInFirestore(bill: Bill) {
+        if (userId == null) return
+
+        val billRef = firestore.collection("users").document(userId)
+            .collection("bills").document(bill.id) // 'id' üzerinden güncelleme yapıyoruz
+
+        billRef.update("amount", bill.amount)
+            .addOnSuccessListener {
+                Log.d("BillUpdate", "Fatura başarıyla güncellendi.")
+            }
+            .addOnFailureListener { e ->
+                Log.e("BillUpdate", "Güncelleme başarısız: ${e.message}")
+            }
+    }
+
+
     private fun fetchBillsFromFirestore() {
         if (userId == null) return
 
@@ -63,7 +85,7 @@ class BillsFragment : Fragment() {
 
             billList.clear()
             for (document in snapshot.documents) {
-                val bill = document.toObject(Bill::class.java)
+                val bill = document.toObject(Bill::class.java)?.copy(id = document.id) // ID'yi alıyoruz
                 if (bill != null) {
                     billList.add(bill)
                 }
@@ -72,12 +94,36 @@ class BillsFragment : Fragment() {
         }
     }
 
+    private fun updateBillStatusInFirestore(bill: Bill) {
+        if (userId == null) return
+
+        val billRef = firestore.collection("users").document(userId)
+            .collection("bills").document(bill.id) // 'id' üzerinden güncelleme yapıyoruz
+
+        billRef.update("status", bill.status)
+            .addOnSuccessListener {
+                Log.d("BillUpdate", "Fatura durumu başarıyla güncellendi.")
+                Toast.makeText(requireContext(), "${bill.name} faturası ödendi olarak işaretlendi.", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Log.e("BillUpdate", "Güncelleme başarısız: ${e.message}")
+                Toast.makeText(requireContext(), "Fatura durumu güncellenirken hata oluştu.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
+
     private fun editBill(bill: Bill) {
         // Buraya düzenleme işlemi için kod eklenebilir
     }
 
     private fun confirmBill(bill: Bill) {
-        // Ödeme onayı için kod eklenebilir
+        // Faturanın statusunu "Paid" olarak güncelle
+        bill.status = "Paid"
+        // Firestore'da güncelleme işlemi
+        updateBillStatusInFirestore(bill)
+        // Görünümde de güncellemeleri yap
+        billAdapter.notifyDataSetChanged()
     }
 
 }
