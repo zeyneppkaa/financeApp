@@ -103,7 +103,7 @@ class BillAdapter(
             binding.tvBillStatus.text = "Unpaid"
             binding.itemBillLinear.setBackgroundColor(Color.WHITE)
             binding.btnEditBill.visibility = View.VISIBLE
-            binding.tvBillName.setTextColor(ContextCompat.getColor(binding.root.context, R.color.bill_name_text_default))
+            binding.tvBillName.setTextColor(ContextCompat.getColor(binding.root.context, R.color.btn_edit_bill_active))
             binding.ivBillIcon.setColorFilter(null)
             binding.btnConfirmBill.setImageResource(R.drawable.ic_check_default)
             binding.btnConfirmBill.isEnabled = true

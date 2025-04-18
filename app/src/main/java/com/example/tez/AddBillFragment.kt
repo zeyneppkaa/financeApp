@@ -121,7 +121,10 @@ class AddBillFragment : Fragment() {
                 // Firestore'dan kaldırılması gerekenleri sil
                 result.documents.forEach { document ->
                     val name = document.getString("name") ?: return@forEach
-                    if (name !in selectedCategories.map { it.name }) {
+                    val month = document.getString("month") ?: return@forEach
+
+                    // Eğer bu kategori mevcut değilse veya kategori istenmiyorsa sil
+                    if (name !in selectedCategories.map { it.name } && month == Bill.getCurrentMonth()) {
                         billsCollection.document(document.id).delete()
                     }
                 }
