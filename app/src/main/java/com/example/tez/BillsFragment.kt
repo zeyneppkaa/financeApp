@@ -53,6 +53,7 @@ class BillsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkAndCreateNewMonthBills()
         binding.toolbarBills.setNavigationOnClickListener {
             findNavController().navigate(R.id.action_billsFragment_to_homeFragment)
         }
@@ -78,21 +79,25 @@ class BillsFragment : Fragment() {
     private fun fetchBillsFromFirestore() {
         if (userId == null) return
 
+        val currentMonth = Bill.getCurrentMonth()
         val billsCollection = firestore.collection("users").document(userId).collection("bills")
 
-        billsCollection.addSnapshotListener { snapshot, error ->
-            if (error != null || snapshot == null) return@addSnapshotListener
+        billsCollection
+            .whereEqualTo("month", currentMonth)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null || snapshot == null) return@addSnapshotListener
 
-            billList.clear()
-            for (document in snapshot.documents) {
-                val bill = document.toObject(Bill::class.java)?.copy(id = document.id) // ID'yi alıyoruz
-                if (bill != null) {
-                    billList.add(bill)
+                billList.clear()
+                for (document in snapshot.documents) {
+                    val bill = document.toObject(Bill::class.java)?.copy(id = document.id)
+                    if (bill != null) {
+                        billList.add(bill)
+                    }
                 }
+                billAdapter.notifyDataSetChanged()
             }
-            billAdapter.notifyDataSetChanged()
-        }
     }
+
 
     private fun updateBillStatusInFirestore(bill: Bill) {
         if (userId == null) return
@@ -118,12 +123,51 @@ class BillsFragment : Fragment() {
     }
 
     private fun confirmBill(bill: Bill) {
-        // Faturanın statusunu "Paid" olarak güncelle
         bill.status = "Paid"
-        // Firestore'da güncelleme işlemi
         updateBillStatusInFirestore(bill)
-        // Görünümde de güncellemeleri yap
         billAdapter.notifyDataSetChanged()
     }
+
+    private fun checkAndCreateNewMonthBills() {
+        if (userId == null) return
+
+        val currentMonth = Bill.getCurrentMonth()
+        val billsRef = firestore.collection("users").document(userId).collection("bills")
+
+        billsRef.get().addOnSuccessListener { snapshot ->
+            val allBills = snapshot.documents.mapNotNull { doc ->
+                val bill = doc.toObject(Bill::class.java)
+                if (bill != null) bill to doc.id else null
+            }
+
+
+            // Eğer bu ayın faturaları zaten varsa, işlem yapma
+            if (allBills.any { it.first.month == currentMonth }) return@addOnSuccessListener
+
+            // Son ayın fatura verilerini bul
+            val previousMonthBills = allBills
+                .groupBy { it.first.month }
+                .maxByOrNull { it.key }?.value ?: return@addOnSuccessListener
+
+            for ((bill, _) in previousMonthBills) {
+                val newBill = Bill(
+                    name = bill.name,
+                    amount = bill.amount,
+                    month = currentMonth,
+                    status = "Unpaid",
+                    iconResId = bill.iconResId
+                )
+                billsRef.add(newBill)
+                    .addOnSuccessListener {
+                        Log.d("BillFirestore", "Yeni ay faturası eklendi: ${newBill.name}")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("BillFirestore", "Fatura eklenemedi: ${e.message}")
+                    }
+
+            }
+        }
+    }
+
 
 }
