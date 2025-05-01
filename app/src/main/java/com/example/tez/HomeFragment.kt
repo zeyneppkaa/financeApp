@@ -39,6 +39,10 @@ class HomeFragment : Fragment() {
         binding.btnBills.setOnClickListener {
             checkFirstTimeBillsClick()
         }
+        binding.btnAnalysis.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToAnalysisFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun checkFirstTimeBillsClick() {
