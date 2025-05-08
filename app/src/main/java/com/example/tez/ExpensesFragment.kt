@@ -82,10 +82,15 @@ class ExpensesFragment : Fragment() {
         setupRecyclerView()
         fetchExpensesFromFirestore()
 
-        val filterOptions = listOf("See All", "Last 7 days", "This month", "Last 1 month", "Last 3 months")
+        val filterOptions =
+            listOf("See All", "Last 7 days", "This month", "Last 1 month", "Last 3 months")
 
         binding.tvSeeAll.setOnClickListener {
-            FilterDropdownHelper(requireContext(), binding.tvSeeAll, filterOptions) { selectedFilter ->
+            FilterDropdownHelper(
+                requireContext(),
+                binding.tvSeeAll,
+                filterOptions
+            ) { selectedFilter ->
                 applyFilter(selectedFilter)
             }.showFilterMenu()
         }
@@ -104,7 +109,11 @@ class ExpensesFragment : Fragment() {
 
                 addExpenseToFirestore(expense)
             } else {
-                Toast.makeText(requireContext(), "Lütfen tüm bilgileri giriniz!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Lütfen tüm bilgileri giriniz!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -158,7 +167,11 @@ class ExpensesFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(), "Veri alınamadı: ${exception.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Veri alınamadı: ${exception.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
@@ -182,7 +195,7 @@ class ExpensesFragment : Fragment() {
 
     private fun addExpenseToFirestore(expense: Expense) {
         if (userId.isEmpty()) return
-        val expenseWithTimestamp = expense.copy(date = com.google.firebase.Timestamp.now()) // ✅ Zaman eklendi
+        val expenseWithTimestamp = expense.copy(date = com.google.firebase.Timestamp.now())
 
         val expenseRef: DocumentReference = firestore.collection("users")
             .document(userId)
@@ -191,7 +204,8 @@ class ExpensesFragment : Fragment() {
 
         expenseRef.set(expenseWithTimestamp)
             .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Gider başarıyla eklendi!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Gider başarıyla eklendi!", Toast.LENGTH_SHORT)
+                    .show()
 
                 // Ekledikten sonra listeyi güncelle
                 expenseList.add(0, expenseWithTimestamp)
@@ -205,7 +219,11 @@ class ExpensesFragment : Fragment() {
                 binding.btnSave.visibility = View.GONE
             }
             .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(), "Gider eklenemedi: ${exception.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Gider eklenemedi: ${exception.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.tez.databinding.FragmentAnalysisBinding
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.*
@@ -33,6 +34,10 @@ class AnalysisFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         fetchExpensesFromFirestore()
         fetchIncomeFromFirestore()
+
+        binding.toolbarAnalysis.setNavigationOnClickListener {
+            findNavController().navigate(R.id.action_analysisFragment_to_homeFragment)
+        }
     }
 
 
@@ -63,7 +68,6 @@ class AnalysisFragment : Fragment() {
     }
 
 
-
     private fun createCustomLegend(
         expenseMap: Map<String, Float>,
         categoryColors: Map<String, Int>,
@@ -73,7 +77,8 @@ class AnalysisFragment : Fragment() {
         val inflater = LayoutInflater.from(context)
 
         for ((category, _) in expenseMap) {
-            val legendItem = inflater.inflate(R.layout.item_legend, binding.customLegendLayout, false)
+            val legendItem =
+                inflater.inflate(R.layout.item_legend, binding.customLegendLayout, false)
 
             val colorBox = legendItem.findViewById<View>(R.id.colorBox)
             val label = legendItem.findViewById<android.widget.TextView>(R.id.label)
@@ -153,18 +158,12 @@ class AnalysisFragment : Fragment() {
         legend.yEntrySpace = 20f
         binding.pieChart.legend.isEnabled = false
 
-        createCustomLegend(expenseMap, categoryColors, categoryPercentages )
+        createCustomLegend(expenseMap, categoryColors, categoryPercentages)
 
     }
 
 
-
-
     //Income starts
-
-
-
-
 
 
     private fun fetchIncomeFromFirestore() {
@@ -202,7 +201,8 @@ class AnalysisFragment : Fragment() {
         val inflater = LayoutInflater.from(context)
 
         for ((category, _) in incomeMap) {
-            val legendItem = inflater.inflate(R.layout.item_legend, binding.customLegendLayoutForIncome, false)
+            val legendItem =
+                inflater.inflate(R.layout.item_legend, binding.customLegendLayoutForIncome, false)
             val colorBox = legendItem.findViewById<View>(R.id.colorBox)
             val label = legendItem.findViewById<android.widget.TextView>(R.id.label)
             val percent = legendItem.findViewById<android.widget.TextView>(R.id.percent)
@@ -281,10 +281,9 @@ class AnalysisFragment : Fragment() {
         legend.yEntrySpace = 20f
         binding.pieChart1.legend.isEnabled = false
 
-        createCustomLegendForIncome(incomeMap, categoryColors, categoryPercentages )
+        createCustomLegendForIncome(incomeMap, categoryColors, categoryPercentages)
 
     }
-
 
 
     override fun onDestroyView() {
