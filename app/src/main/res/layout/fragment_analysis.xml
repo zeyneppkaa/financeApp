@@ -23,28 +23,18 @@
             app:titleMarginStart="100dp"
             app:titleTextColor="@android:color/white">
 
-            <Button
-                android:id="@+id/btn_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:background="@android:color/transparent"
-                android:padding="8dp"
-                android:text="Save"
-                android:visibility="gone"
-                android:textColor="@android:color/white" />
         </androidx.appcompat.widget.Toolbar>
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
             android:text="Expenses Analysis"
             android:textColor="@color/blue"
-            android:textStyle="bold"
             android:textSize="16sp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp" />
+            android:textStyle="bold" />
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
@@ -53,25 +43,24 @@
             android:layout_margin="16dp"
             tools:ignore="MissingClass" />
 
-        <GridLayout
+        <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/customLegendLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="3"
             android:orientation="horizontal"
-            android:padding="8dp"
-            xmlns:android="http://schemas.android.com/apk/res/android"/>
+            android:padding="8dp" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="22dp"
             android:text="Income Analysis"
             android:textColor="@color/blue"
-            android:textStyle="bold"
             android:textSize="16sp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="22dp" />
+            android:textStyle="bold" />
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart1"
@@ -80,14 +69,13 @@
             android:layout_margin="16dp"
             tools:ignore="MissingClass" />
 
-        <GridLayout
+        <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/customLegendLayoutForIncome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="3"
             android:orientation="horizontal"
-            android:padding="8dp"
-            xmlns:android="http://schemas.android.com/apk/res/android"/>
+            android:padding="8dp" />
 
 
     </LinearLayout>
