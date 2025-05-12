@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:src="@drawable/white_border"
+        app:layout_constraintBottom_toBottomOf="parent"
+         />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="65dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_chevron_left"
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="95dp"
+        android:layout_height="35dp"
+        android:text="Security"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:layout_marginTop="23dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Privacy Policy"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="375dp"
+        android:layout_height="517dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="\n\n1. General Information\nThis privacy policy explains how your personal data is collected, processed, stored, and protected by [Finance Management App] (we, our, app). By using our app, you agree to this policy and the processing of your personal data.\n\n2. Information Collected\nWhen using the app, your personal information (such as name, surname, email address, date of birth) and financial data (such as income, expenses, debt status) may be collected. Additionally, technical data such as user preferences and device information may also be collected.\n\n3. Purpose of Use\nThe personal data collected will be used solely for the following purposes:\n- Providing in-app services,\n- Managing and personalizing user accounts,\n- Offering financial analyses and reports,\n- Providing user support services,\n- Fulfilling legal obligations.\n\n4. Data Storage\nYour personal data will be stored only for as long as necessary and will be deleted after fulfilling legal obligations. Appropriate security measures have been taken to protect your data.\n\n5. Data Sharing\nYour personal data may be shared with third parties only in the case of legal obligations, user consent, or to provide a specific service. Your data will never be sold to third parties for commercial purposes.\n\n6. User Rights\nYou have the following rights regarding your personal data:\n- The right to access your data,\n- The right to correct or delete your data,\n- The right to object to the processing of your data,\n- The right to obtain your data in a portable format.\n\n7. Children's Privacy\nThis app is not intended for children under the age of 18. Personal data from users under 18 years old is not collected. Users are required to provide accurate information regarding their age.\n\n8. Changes\nThis privacy policy may be updated from time to time. Changes to the policy will be communicated through the app, and the updated policy will apply.\n\n9. Contact\nIf you have any questions regarding this privacy policy, you can contact us at [finanaceManagement@hotmail.com]."
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

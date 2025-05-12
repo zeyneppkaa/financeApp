@@ -39,7 +39,13 @@
         android:id="@+id/profileFragment"
         android:name="com.example.tez.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/action_profileFragment_to_securityProfileFragment"
+            app:destination="@id/securityProfileFragment" />
+
+    </fragment>
     <fragment
         android:id="@+id/scanFragment"
         android:name="com.example.tez.ScanFragment"
@@ -116,5 +122,15 @@
             android:id="@+id/action_analysisFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/securityProfileFragment"
+        android:name="com.example.tez.SecurityProfileFragment"
+        android:label="fragment_security"
+        tools:layout="@layout/fragment_security_profile"/>
+
+
+
+
 
 </navigation>
