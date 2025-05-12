@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -19,6 +20,8 @@ class ProfileFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
     }
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,14 +32,25 @@ class ProfileFragment : Fragment() {
         val logoutText = view.findViewById<TextView>(R.id.textView9)
         val logoutIcon = view.findViewById<ImageView>(R.id.imageLogout)
 
+
         // Çıkış işlemi
         val logoutClickListener = View.OnClickListener {
             auth.signOut() // Firebase oturumunu kapat
             findNavController().navigate(R.id.logInFragment) // Login ekranına yönlendir
         }
 
+        val securityButton = view.findViewById<ImageView>(R.id.bttn_edit2)
+        securityButton.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_securityProfileFragment)
+        }
+
+
+
+
+
         logoutText.setOnClickListener(logoutClickListener)
         logoutIcon.setOnClickListener(logoutClickListener)
+
 
         return view
     }
