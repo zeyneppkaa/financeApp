@@ -69,7 +69,7 @@ class SignUpFragment : Fragment() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     user?.let {
-                        saveUserToFirestore(it.uid, name, email, phone, birthDate)
+                        saveUserToFirestore(it.uid, name, email, phone, birthDate, password)
                         sendEmailVerification(it)
                     }
                 } else {
@@ -78,14 +78,15 @@ class SignUpFragment : Fragment() {
             }
     }
 
-    private fun saveUserToFirestore(userId: String, name: String, email: String, phone: String, birthDate: String) {
+    private fun saveUserToFirestore(userId: String, name: String, email: String, phone: String, birthDate: String, password: String) {
         val db = FirebaseFirestore.getInstance()
         val userMap = hashMapOf(
             "name" to name,
             "email" to email,
             "phone" to phone,
             "birthDate" to birthDate,
-            "created_at" to System.currentTimeMillis()
+            "created_at" to System.currentTimeMillis(),
+            "password" to password
         )
 
         db.collection("users").document(userId)

@@ -44,8 +44,10 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profileFragment_to_securityProfileFragment)
         }
 
-
-
+        val settingsButton = view.findViewById<ImageView>(R.id.bttn_edit3)
+        settingsButton.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_changePasswordFragment)
+        }
 
 
         logoutText.setOnClickListener(logoutClickListener)

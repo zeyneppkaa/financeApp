@@ -200,7 +200,7 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings"
+        android:text="Change Password"
         android:layout_marginStart="20dp"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/bttn_edit3"
