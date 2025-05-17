@@ -131,7 +131,11 @@
         android:id="@+id/securityProfileFragment"
         android:name="com.example.tez.SecurityProfileFragment"
         android:label="fragment_security"
-        tools:layout="@layout/fragment_security_profile" />
+        tools:layout="@layout/fragment_security_profile" >
+        <action
+            android:id="@+id/action_securityProfileFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/changePasswordFragment"
