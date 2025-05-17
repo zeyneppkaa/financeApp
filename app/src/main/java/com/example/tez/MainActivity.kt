@@ -52,8 +52,8 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.expensesFragment)
                     true
                 }
-                R.id.scanFragment -> {
-                    navController.navigate(R.id.scanFragment)
+                R.id.analysisFragment -> {
+                    navController.navigate(R.id.analysisFragment)
                     true
                 }
                 R.id.profileFragment -> {

@@ -22,6 +22,16 @@
         app:titleMarginStart="100dp"
         app:titleTextColor="@android:color/white">
 
+        <ImageButton
+            android:id="@+id/img_btn_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_scan"
+            android:layout_marginLeft="30dp"
+            android:visibility="gone"
+            app:tint="@color/white" />
+
         <Button
             android:id="@+id/btn_save"
             android:layout_width="wrap_content"
@@ -45,7 +55,6 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_expenses"
         app:spanCount="4"
         tools:listitem="@layout/item_category" />
-
 
     <!-- Transactions Section -->
     <androidx.constraintlayout.widget.ConstraintLayout

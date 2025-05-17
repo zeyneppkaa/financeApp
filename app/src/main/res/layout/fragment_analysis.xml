@@ -18,9 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/top_blue_background"
-            app:navigationIcon="@drawable/ic_chevron_left"
             app:title="Analysis"
-            app:titleMarginStart="100dp"
+            app:titleMarginStart="160dp"
             app:titleTextColor="@android:color/white">
 
         </androidx.appcompat.widget.Toolbar>
@@ -76,7 +75,6 @@
             android:columnCount="3"
             android:orientation="horizontal"
             android:padding="8dp" />
-
 
     </LinearLayout>
 </ScrollView>

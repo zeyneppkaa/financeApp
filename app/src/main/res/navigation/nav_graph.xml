@@ -22,9 +22,6 @@
         <action
             android:id="@+id/action_homeFragment_to_billsFragment"
             app:destination="@id/billsFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_analysisFragment"
-            app:destination="@+id/analysisFragment" />
     </fragment>
     <fragment
         android:id="@+id/expensesFragment"
@@ -34,6 +31,9 @@
         <action
             android:id="@+id/action_expensesFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_expensesFragment_to_scanFragment"
+            app:destination="@id/scanFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -122,9 +122,6 @@
         android:name="com.example.tez.AnalysisFragment"
         android:label="fragment_analysis"
         tools:layout="@layout/fragment_analysis" >
-        <action
-            android:id="@+id/action_analysisFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
     </fragment>
 
     <fragment
@@ -147,7 +144,5 @@
             android:id="@+id/action_changePasswordFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
-
-
 
 </navigation>
