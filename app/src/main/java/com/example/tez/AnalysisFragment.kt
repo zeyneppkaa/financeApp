@@ -47,23 +47,46 @@ class AnalysisFragment : Fragment() {
         firestore.collection("users")
             .document(userId)
             .collection("expenses")
-            .addSnapshotListener { result, exception ->
-                if (exception != null) {
-                    println("Gider verisi alınamadı: ${exception.message}")
+            .addSnapshotListener { expenseResult, expenseException ->
+                if (expenseException != null) {
+                    println("Gider verisi alınamadı: ${expenseException.message}")
                     return@addSnapshotListener
                 }
 
                 val expenseMap = mutableMapOf<String, Float>()
                 var totalAmount = 0f
 
-                result?.forEach { document ->
+                expenseResult?.forEach { document ->
                     val category = document.getString("category") ?: "Diğer"
                     val amount = document.getDouble("amount")?.toFloat() ?: 0f
                     expenseMap[category] = expenseMap.getOrDefault(category, 0f) + amount
                     totalAmount += amount
                 }
 
-                updatePieChart(expenseMap, totalAmount)
+                //bills ekleniyor
+                firestore.collection("users")
+                    .document(userId)
+                    .collection("bills")
+                    .get()
+                    .addOnSuccessListener { billsResult ->
+                        var totalBillsAmount = 0f
+                        billsResult.forEach { billDoc ->
+                            val amount = billDoc.getDouble("amount")?.toFloat() ?: 0f
+                            totalBillsAmount += amount
+                        }
+
+                        if (totalBillsAmount > 0f) {
+                            expenseMap["Bills"] = totalBillsAmount
+                            totalAmount += totalBillsAmount
+                        }
+
+                        updatePieChart(expenseMap, totalAmount)
+                    }
+                    .addOnFailureListener { e ->
+                        println("Fatura verisi alınamadı: ${e.message}")
+                        // Faturalar alınamasa da pie chart güncellenir
+                        updatePieChart(expenseMap, totalAmount)
+                    }
             }
     }
 

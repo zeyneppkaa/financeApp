@@ -55,23 +55,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Daisy Edgar"
-        android:textSize="20sp"
-        android:layout_marginTop="35dp"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageProfile"
-        android:layout_width="200dp"
-        android:layout_height="135dp"
-        android:layout_marginStart="106dp"
-        android:layout_marginTop="67dp"
-        android:layout_marginEnd="105dp"
-        android:src="@drawable/img_profile"
-        app:layout_constraintEnd_toEndOf="@+id/constraintLayout3"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout3"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout3" />
+
+    <TextView
+        android:id="@+id/text_mail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="daisyedgar@hotmail.com"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/ProfileName"
+        app:layout_constraintStart_toStartOf="@+id/ProfileName"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
 
     <ImageView
         android:id="@+id/bttn_edit1"
