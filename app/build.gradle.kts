@@ -55,6 +55,8 @@ dependencies {
     implementation("androidx.credentials:credentials:1.3.0")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation(libs.googleid)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.play.services.mlkit.text.recognition.common)
     val nav_version = "2.8.6"
 
     implementation(libs.androidx.core.ktx)
@@ -87,5 +89,12 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
 
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation ("com.google.mlkit:text-recognition:16.0.1")
+    implementation ("androidx.camera:camera-camera2:1.4.2")
+    implementation ("androidx.camera:camera-lifecycle:1.4.2")
+    implementation ("androidx.camera:camera-view:1.4.2")
+    implementation ("com.google.guava:guava:31.1-android")
+
+
 
 }

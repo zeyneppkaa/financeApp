@@ -95,6 +95,10 @@ class ExpensesFragment : Fragment() {
             }.showFilterMenu()
         }
 
+        binding.imgBtnCamera.setOnClickListener() {
+            findNavController().navigate(R.id.action_expensesFragment_to_scanFragment)
+        }
+
 
         binding.btnSave.setOnClickListener {
             val name = binding.etName.text.toString().trim()
@@ -126,9 +130,11 @@ class ExpensesFragment : Fragment() {
         if (selectedCategory == null) {
             binding.expenseInputLayout.visibility = View.GONE
             binding.btnSave.visibility = View.GONE
+            binding.imgBtnCamera.visibility = View.GONE
         } else {
             binding.expenseInputLayout.visibility = View.VISIBLE
             binding.btnSave.visibility = View.VISIBLE
+            binding.imgBtnCamera.visibility = View.VISIBLE
             binding.ivCategoryIcon.setImageResource(selectedCategory!!.iconRes)
         }
     }

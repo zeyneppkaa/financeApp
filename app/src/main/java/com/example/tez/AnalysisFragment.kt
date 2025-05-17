@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.example.tez.databinding.FragmentAnalysisBinding
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.*
@@ -34,12 +33,7 @@ class AnalysisFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         fetchExpensesFromFirestore()
         fetchIncomeFromFirestore()
-
-        binding.toolbarAnalysis.setNavigationOnClickListener {
-            findNavController().navigate(R.id.action_analysisFragment_to_homeFragment)
-        }
     }
-
 
     private fun fetchExpensesFromFirestore() {
         if (userId.isEmpty()) return
@@ -90,7 +84,6 @@ class AnalysisFragment : Fragment() {
             }
     }
 
-
     private fun createCustomLegend(
         expenseMap: Map<String, Float>,
         categoryColors: Map<String, Int>,
@@ -117,7 +110,6 @@ class AnalysisFragment : Fragment() {
         }
     }
 
-
     private fun updatePieChart(expenseMap: Map<String, Float>, totalAmount: Float) {
         val pieEntries = mutableListOf<PieEntry>()
         val colors = mutableListOf<Int>()
@@ -133,7 +125,6 @@ class AnalysisFragment : Fragment() {
 
         val categoryColors = mutableMapOf<String, Int>()
         var colorIndex = 0
-
 
         for ((category, amount) in expenseMap) {
             val percentage = (amount / totalAmount) * 100
@@ -185,10 +176,7 @@ class AnalysisFragment : Fragment() {
 
     }
 
-
     //Income starts
-
-
     private fun fetchIncomeFromFirestore() {
         if (userId.isEmpty()) return
 
@@ -240,7 +228,6 @@ class AnalysisFragment : Fragment() {
         }
     }
 
-
     private fun updatePieChartForIncome(incomeMap: Map<String, Float>, totalAmount: Float) {
         val pieEntries = mutableListOf<PieEntry>()
         val colors = mutableListOf<Int>()
@@ -256,7 +243,6 @@ class AnalysisFragment : Fragment() {
 
         val categoryColors = mutableMapOf<String, Int>()
         var colorIndex = 0
-
 
         for ((category, amount) in incomeMap) {
             val percentage = (amount / totalAmount) * 100
@@ -307,7 +293,6 @@ class AnalysisFragment : Fragment() {
         createCustomLegendForIncome(incomeMap, categoryColors, categoryPercentages)
 
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

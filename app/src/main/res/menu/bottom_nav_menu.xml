@@ -6,9 +6,9 @@
         android:title="Home" />
 
     <item
-        android:id="@+id/scanFragment"
-        android:icon="@drawable/ic_scan"
-        android:title="Scan" />
+        android:id="@+id/analysisFragment"
+        android:icon="@drawable/ic_analysis_home_btn"
+        android:title="Analysis" />
 
     <item
         android:id="@+id/profileFragment"

@@ -13,17 +13,6 @@
         android:background="@color/white">
 
         <!-- Profil ve Bildirim -->
-        <ImageView
-            android:id="@+id/ivProfile"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="30dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_profile"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/tvUserName"
             android:layout_width="wrap_content"
@@ -32,21 +21,9 @@
             android:text="Hello, Daisy"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/ivProfile"
-            app:layout_constraintStart_toEndOf="@id/ivProfile"
-            app:layout_constraintTop_toTopOf="@id/ivProfile" />
-
-        <ImageView
-            android:id="@+id/ivNotification"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="18dp"
-            android:padding="8dp"
-            android:src="@drawable/ic_notification"
-            app:layout_constraintBottom_toBottomOf="@id/ivProfile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ivProfile" />
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="@id/balanceContainer"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Bakiye Kartı -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,7 +36,7 @@
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivProfile">
+            app:layout_constraintTop_toBottomOf="@id/tvUserName">
 
             <TextView
                 android:id="@+id/tvTotalBalanceTitle"
@@ -234,7 +211,7 @@
                 android:background="@drawable/home_ellipse"
                 android:padding="8dp"
                 android:src="@drawable/ic_bills_home_btn"
-                app:layout_constraintEnd_toStartOf="@id/btnAnalysis"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btnIncomes"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -247,25 +224,6 @@
                 app:layout_constraintStart_toStartOf="@id/btnBills"
                 app:layout_constraintTop_toBottomOf="@id/btnBills" />
 
-            <ImageButton
-                android:id="@+id/btnAnalysis"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/home_buttons_circle"
-                android:padding="8dp"
-                android:src="@drawable/ic_analysis_home_btn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnBills"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Analysis"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/btnAnalysis"
-                app:layout_constraintStart_toStartOf="@id/btnAnalysis"
-                app:layout_constraintTop_toBottomOf="@id/btnAnalysis" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Filtreleme Butonları -->
@@ -348,7 +306,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvOverview" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
