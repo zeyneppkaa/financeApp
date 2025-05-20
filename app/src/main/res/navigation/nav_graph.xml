@@ -54,7 +54,11 @@
         android:id="@+id/scanFragment"
         android:name="com.example.tez.ScanFragment"
         android:label="Scan"
-        tools:layout="@layout/fragment_scan"/>
+        tools:layout="@layout/fragment_scan">
+        <action
+            android:id="@+id/action_scanFragment_to_expensesFragment"
+            app:destination="@id/expensesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/incomeFragment"
         android:name="com.example.tez.IncomeFragment"
