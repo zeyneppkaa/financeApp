@@ -24,7 +24,9 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.example.tez.databinding.FragmentScanBinding
+import com.example.tez.model.Expense
 import com.example.tez.utils.EditPriceDialogFragment
+import com.google.firebase.Timestamp
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -153,7 +155,7 @@ class ScanFragment : Fragment() {
                     activity?.runOnUiThread {
                         _binding?.detectedPriceTextView?.text = price?.let {
                             "Detected Price: $it"
-                        } ?: "Detected Price: --"
+                        } ?: "Detected Price: "
                     }
                 }
                 .addOnFailureListener {
@@ -189,14 +191,21 @@ class ScanFragment : Fragment() {
             anim.start()
 
             val priceToShow = detectedPrice ?: "0.00"
+            val selectedCategory = categoryName ?: "Other"
+            val userId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid
 
-            val dialog = EditPriceDialogFragment(priceToShow, categoryName ?: "Other") { newPrice ->
-                Toast.makeText(requireContext(), "Saved: $newPrice", Toast.LENGTH_SHORT).show()
+            if (userId == null) {
+                Toast.makeText(requireContext(), "Kullanıcı oturumu yok.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-            dialog.show(parentFragmentManager, "EditPriceDialog")
 
+            val dialog = EditPriceDialogFragment(priceToShow, selectedCategory, userId)
+            dialog.show(parentFragmentManager, "EditPriceDialog")
         }
     }
+
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

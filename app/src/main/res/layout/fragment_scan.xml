@@ -5,6 +5,7 @@
     android:id="@+id/scanFragmentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ScanFragment">
 
     <!-- Toolbar -->
@@ -21,13 +22,6 @@
         app:titleMarginStart="120dp"
         app:titleTextColor="@android:color/white">
 
-        <ImageButton
-            android:id="@+id/btn_refresh"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/ic_refresh" />
     </androidx.appcompat.widget.Toolbar>
 
     <!-- Kamera önizlemesi ve odak kutusunu barındıran FrameLayout -->
@@ -63,9 +57,9 @@
         android:id="@+id/detectedPriceTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Detected Price: --"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:text="Detected Price : "
+        android:fontFamily="@font/league_spartan"
+        android:textSize="22sp"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/cameraContainer"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,6 +70,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Scan"
+        android:textSize="18sp"
+        android:fontFamily="@font/league_spartan"
+        android:backgroundTint="@color/overview_chart_left_axis"
         app:layout_constraintTop_toBottomOf="@+id/detectedPriceTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
