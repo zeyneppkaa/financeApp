@@ -28,5 +28,6 @@
     <color name="overview_chart_left_axis">#6DB6FE</color>
     <color name="edit_text_input">#8A000000</color>
     <color name="edit_price_input">#9AD911</color>
+    <color name="edit_label">#57C6F2</color>
 
 </resources>

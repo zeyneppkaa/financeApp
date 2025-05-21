@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
+import java.security.Timestamp
 import java.util.Calendar
 import java.util.Date
 
@@ -95,8 +96,11 @@ class ExpensesFragment : Fragment() {
             }.showFilterMenu()
         }
 
-        binding.imgBtnCamera.setOnClickListener() {
-            findNavController().navigate(R.id.action_expensesFragment_to_scanFragment)
+        binding.imgBtnCamera.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("selectedCategoryName", selectedCategory?.name)
+            }
+            findNavController().navigate(R.id.action_expensesFragment_to_scanFragment, bundle)
         }
 
 
@@ -198,6 +202,8 @@ class ExpensesFragment : Fragment() {
         calendar.set(Calendar.DAY_OF_MONTH, 1)
         return calendar.time
     }
+
+
 
     private fun addExpenseToFirestore(expense: Expense) {
         if (userId.isEmpty()) return
