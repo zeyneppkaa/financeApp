@@ -31,25 +31,33 @@ import java.util.concurrent.Executors
 class ScanFragment : Fragment() {
 
     private var _binding: FragmentScanBinding? = null
+    private val binding get() = _binding!!
+
     private val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
     private lateinit var cameraExecutor: ExecutorService
+
+    private var detectedPrice: String? = null
 
     companion object {
         private const val CAMERA_PERMISSION_REQUEST = 1001
     }
+
+    private var categoryName: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentScanBinding.inflate(inflater, container, false)
-        return _binding!!.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _binding?.toolbarScan?.setNavigationOnClickListener {
+        categoryName = arguments?.getString("selectedCategoryName")
+
+        binding.toolbarScan.setNavigationOnClickListener {
             findNavController().navigate(R.id.action_scanFragment_to_expensesFragment)
         }
 
@@ -75,7 +83,7 @@ class ScanFragment : Fragment() {
             val cameraProvider = cameraProviderFuture.get()
 
             val preview = Preview.Builder().build().also { preview ->
-                _binding?.previewView?.surfaceProvider?.let {
+                binding.previewView.surfaceProvider?.let {
                     preview.setSurfaceProvider(it)
                 }
             }
@@ -109,10 +117,12 @@ class ScanFragment : Fragment() {
 
             recognizer.process(image)
                 .addOnSuccessListener { visionText ->
-                    val binding = _binding ?: return@addOnSuccessListener
-
-                    val previewView = binding.previewView
-                    val focusBox = binding.focusBox
+                    val currentBinding = _binding ?: run {
+                        imageProxy.close()
+                        return@addOnSuccessListener
+                    }
+                    val previewView = currentBinding.previewView
+                    val focusBox = currentBinding.focusBox
 
                     val focusLocation = IntArray(2)
                     val previewLocation = IntArray(2)
@@ -138,14 +148,12 @@ class ScanFragment : Fragment() {
                         .joinToString(" ") { it.text }
 
                     val price = extractPrice(filteredText)
+                    detectedPrice = price
 
-                    requireActivity().runOnUiThread {
-                        _binding?.let { binding ->
-                            binding.detectedPriceTextView.text = if (price != null)
-                                "Detected Price: $price"
-                            else
-                                "Detected Price: --"
-                        }
+                    activity?.runOnUiThread {
+                        _binding?.detectedPriceTextView?.text = price?.let {
+                            "Detected Price: $it"
+                        } ?: "Detected Price: --"
                     }
                 }
                 .addOnFailureListener {
@@ -168,9 +176,7 @@ class ScanFragment : Fragment() {
     }
 
     private fun setupScanButton() {
-        _binding?.scanButton?.setOnClickListener {
-            val binding = _binding ?: return@setOnClickListener
-
+        binding.scanButton.setOnClickListener {
             val anim = ObjectAnimator.ofArgb(
                 binding.focusBox.background,
                 "tint",
@@ -182,10 +188,13 @@ class ScanFragment : Fragment() {
             anim.repeatMode = ValueAnimator.REVERSE
             anim.start()
 
-            val dialog = EditPriceDialogFragment("750") { newPrice ->
+            val priceToShow = detectedPrice ?: "0.00"
+
+            val dialog = EditPriceDialogFragment(priceToShow, categoryName ?: "Other") { newPrice ->
                 Toast.makeText(requireContext(), "Saved: $newPrice", Toast.LENGTH_SHORT).show()
             }
             dialog.show(parentFragmentManager, "EditPriceDialog")
+
         }
     }
 
