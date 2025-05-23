@@ -199,7 +199,14 @@ class ScanFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            val dialog = EditPriceDialogFragment(priceToShow, selectedCategory, userId)
+            val dialog = EditPriceDialogFragment(
+                priceToShow,
+                selectedCategory,
+                userId
+            ) {
+                // Save başarılı olunca fragment geçişi yap
+                findNavController().navigate(R.id.action_scanFragment_to_expensesFragment)
+            }
             dialog.show(parentFragmentManager, "EditPriceDialog")
         }
     }
