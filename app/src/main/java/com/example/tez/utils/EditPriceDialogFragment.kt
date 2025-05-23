@@ -9,6 +9,9 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.example.tez.ExpensesFragment
 import com.example.tez.R
 import com.example.tez.model.Expense
 import com.google.firebase.Timestamp
@@ -17,7 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 class EditPriceDialogFragment(
     private val initialPrice: String,
     private val categoryName: String,
-    private val userId: String // Firestore için kullanıcı id
+    private val userId: String,
+    private val onSaveSuccess: () -> Unit // callback ekledik
 ) : DialogFragment() {
 
     private val firestore = FirebaseFirestore.getInstance()
@@ -68,7 +72,8 @@ class EditPriceDialogFragment(
                 .add(expense)
                 .addOnSuccessListener {
                     Toast.makeText(requireContext(), "Gider başarıyla eklendi.", Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
+                    dismiss()
+                    onSaveSuccess()  // navigasyon callback'i tetikleniyor
                 }
                 .addOnFailureListener { e ->
                     Toast.makeText(requireContext(), "Hata: ${e.message}", Toast.LENGTH_SHORT).show()
