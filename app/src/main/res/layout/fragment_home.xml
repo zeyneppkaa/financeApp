@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="220dp"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bg_balance"
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -166,9 +166,9 @@
 
             <ImageButton
                 android:id="@+id/btnExpenses"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/home_ellipse"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/ic_home_cerceve"
                 android:padding="8dp"
                 android:src="@drawable/ic_expenses_home_btn"
                 app:layout_constraintEnd_toStartOf="@id/btnIncomes"
@@ -186,9 +186,9 @@
 
             <ImageButton
                 android:id="@+id/btnIncomes"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/home_ellipse"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/ic_home_cerceve"
                 android:padding="8dp"
                 android:src="@drawable/ic_incomes_home_btn"
                 app:layout_constraintEnd_toStartOf="@id/btnBills"
@@ -206,9 +206,9 @@
 
             <ImageButton
                 android:id="@+id/btnBills"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/home_ellipse"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/ic_home_cerceve"
                 android:padding="8dp"
                 android:src="@drawable/ic_bills_home_btn"
                 app:layout_constraintEnd_toEndOf="parent"

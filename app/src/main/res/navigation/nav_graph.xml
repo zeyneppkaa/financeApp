@@ -48,6 +48,9 @@
         <action
             android:id="@+id/action_profileFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_HelpFragment"
+            app:destination="@id/HelpFragment" />
 
     </fragment>
     <fragment
@@ -146,6 +149,16 @@
 
         <action
             android:id="@+id/action_changePasswordFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/HelpFragment"
+        android:name="com.example.tez.HelpFragment"
+        android:label="Help Fragment"
+        tools:layout="@layout/fragment_help">
+        <action
+            android:id="@+id/action_HelpFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
 

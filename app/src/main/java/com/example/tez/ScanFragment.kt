@@ -179,6 +179,13 @@ class ScanFragment : Fragment() {
 
     private fun setupScanButton() {
         binding.scanButton.setOnClickListener {
+            val priceToShow = detectedPrice ?: ""
+
+            if (priceToShow.isEmpty()) {
+                Toast.makeText(requireContext(), "Herhangi bir fiyat tespit edilemedi.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val anim = ObjectAnimator.ofArgb(
                 binding.focusBox.background,
                 "tint",
@@ -190,7 +197,6 @@ class ScanFragment : Fragment() {
             anim.repeatMode = ValueAnimator.REVERSE
             anim.start()
 
-            val priceToShow = detectedPrice ?: "0.00"
             val selectedCategory = categoryName ?: "Other"
             val userId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid
 
@@ -210,9 +216,6 @@ class ScanFragment : Fragment() {
             dialog.show(parentFragmentManager, "EditPriceDialog")
         }
     }
-
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
