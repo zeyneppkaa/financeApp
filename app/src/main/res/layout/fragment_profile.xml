@@ -73,24 +73,14 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
 
     <ImageView
-        android:id="@+id/bttn_edit1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/rectangle1"
-        android:layout_marginTop="270dp"
-        android:layout_marginStart="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
         android:id="@+id/bttn_edit2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:src="@drawable/rectangle1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bttn_edit1" />
+        app:layout_constraintTop_toBottomOf="@+id/text_mail" />
 
     <ImageView
         android:id="@+id/bttn_edit3"
@@ -144,16 +134,6 @@
         app:layout_constraintTop_toTopOf="@+id/bttn_edit4" />
 
     <ImageView
-        android:id="@+id/imagePerson"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_person"
-        app:layout_constraintBottom_toBottomOf="@+id/bttn_edit1"
-        app:layout_constraintEnd_toEndOf="@+id/bttn_edit1"
-        app:layout_constraintStart_toStartOf="@+id/bttn_edit1"
-        app:layout_constraintTop_toTopOf="@+id/bttn_edit1" />
-
-    <ImageView
         android:id="@+id/imageLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -172,17 +152,6 @@
         app:layout_constraintEnd_toEndOf="@+id/bttn_edit3"
         app:layout_constraintStart_toStartOf="@+id/bttn_edit3"
         app:layout_constraintTop_toTopOf="@+id/bttn_edit3" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit Profile"
-        android:layout_marginStart="20dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/bttn_edit1"
-        app:layout_constraintStart_toEndOf="@+id/bttn_edit1"
-        app:layout_constraintTop_toTopOf="@+id/bttn_edit1" />
 
     <TextView
         android:id="@+id/textView6"

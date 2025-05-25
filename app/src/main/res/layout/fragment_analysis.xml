@@ -22,6 +22,7 @@
             app:titleMarginStart="160dp"
             app:titleTextColor="@android:color/white">
 
+
         </androidx.appcompat.widget.Toolbar>
 
         <TextView
@@ -34,6 +35,20 @@
             android:textColor="@color/blue"
             android:textSize="16sp"
             android:textStyle="bold" />
+
+        <!-- fragment_analysis.xml içinde uygun yere, örneğin üstte -->
+
+
+        <TextView
+            android:id="@+id/tvFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:text="See All  v"
+
+            android:textSize="16sp" />
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
@@ -60,6 +75,16 @@
             android:textColor="@color/blue"
             android:textSize="16sp"
             android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvFilter1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:text="See All  v"
+            android:textSize="16sp" />
+
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart1"

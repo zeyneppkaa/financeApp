@@ -1,17 +1,23 @@
 package com.example.tez
 
+import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.tez.databinding.FragmentAnalysisBinding
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class AnalysisFragment : Fragment() {
 
@@ -20,6 +26,9 @@ class AnalysisFragment : Fragment() {
 
     private val firestore = FirebaseFirestore.getInstance()
     private val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
+    private val filterOptions = listOf("See All", "Last 7 days", "This month", "Last 1 month", "Last 3 months")
+    private var selectedFilter = "See All"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,33 +40,71 @@ class AnalysisFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fetchExpensesFromFirestore()
-        fetchIncomeFromFirestore()
+
+        binding.tvFilter.text = selectedFilter
+        binding.tvFilter.setOnClickListener {
+            showFilterDialog()
+        }
+
+        fetchExpensesFromFirestoreWithFilter(selectedFilter)
+        fetchIncomeFromFirestoreWithFilter(selectedFilter)
     }
 
-    private fun fetchExpensesFromFirestore() {
+    private fun showFilterDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Select Filter")
+
+        builder.setItems(filterOptions.toTypedArray()) { _, which ->
+            selectedFilter = filterOptions[which]
+            binding.tvFilter.text = selectedFilter
+            fetchExpensesFromFirestoreWithFilter(selectedFilter)
+            fetchIncomeFromFirestoreWithFilter(selectedFilter)
+        }
+
+        builder.create().show()
+    }
+
+    // Tarih filtreleri için yardımcı fonksiyonlar
+    private fun getPastDate(days: Int): Timestamp {
+        val calendar = java.util.Calendar.getInstance()
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, -days)
+        return Timestamp(calendar.time)
+    }
+
+    private fun getMonthStart(): Timestamp {
+        val calendar = java.util.Calendar.getInstance()
+        calendar.set(java.util.Calendar.DAY_OF_MONTH, 1)
+        return Timestamp(calendar.time)
+    }
+
+    private fun fetchExpensesFromFirestoreWithFilter(filter: String) {
         if (userId.isEmpty()) return
 
-        firestore.collection("users")
+        val expensesRef = firestore.collection("users")
             .document(userId)
             .collection("expenses")
-            .addSnapshotListener { expenseResult, expenseException ->
-                if (expenseException != null) {
-                    println("Gider verisi alınamadı: ${expenseException.message}")
-                    return@addSnapshotListener
-                }
 
+        val query: Query = when (filter) {
+            "Last 7 days" -> expensesRef.whereGreaterThan("date", getPastDate(7))
+            "This month" -> expensesRef.whereGreaterThan("date", getMonthStart())
+            "Last 1 month" -> expensesRef.whereGreaterThan("date", getPastDate(30))
+            "Last 3 months" -> expensesRef.whereGreaterThan("date", getPastDate(90))
+            else -> expensesRef
+        }.orderBy("date", Query.Direction.DESCENDING)
+
+        query.get()
+            .addOnSuccessListener { result ->
                 val expenseMap = mutableMapOf<String, Float>()
                 var totalAmount = 0f
 
-                expenseResult?.forEach { document ->
+                for (document in result) {
                     val category = document.getString("category") ?: "Diğer"
                     val amount = document.getDouble("amount")?.toFloat() ?: 0f
                     expenseMap[category] = expenseMap.getOrDefault(category, 0f) + amount
                     totalAmount += amount
                 }
 
-                //bills ekleniyor
+                // Bills toplamını da ekleyelim (filtreyi bills için eklemedim, istersen uyarlayabiliriz)
                 firestore.collection("users")
                     .document(userId)
                     .collection("bills")
@@ -68,46 +115,53 @@ class AnalysisFragment : Fragment() {
                             val amount = billDoc.getDouble("amount")?.toFloat() ?: 0f
                             totalBillsAmount += amount
                         }
-
                         if (totalBillsAmount > 0f) {
                             expenseMap["Bills"] = totalBillsAmount
                             totalAmount += totalBillsAmount
                         }
-
                         updatePieChart(expenseMap, totalAmount)
                     }
-                    .addOnFailureListener { e ->
-                        println("Fatura verisi alınamadı: ${e.message}")
-                        // Faturalar alınamasa da pie chart güncellenir
+                    .addOnFailureListener {
                         updatePieChart(expenseMap, totalAmount)
                     }
             }
+            .addOnFailureListener {
+                println("Gider verisi alınamadı: ${it.message}")
+            }
     }
 
-    private fun createCustomLegend(
-        expenseMap: Map<String, Float>,
-        categoryColors: Map<String, Int>,
-        categoryPercentages: Map<String, Float>
-    ) {
-        binding.customLegendLayout.removeAllViews()
-        val inflater = LayoutInflater.from(context)
+    private fun fetchIncomeFromFirestoreWithFilter(filter: String) {
+        if (userId.isEmpty()) return
 
-        for ((category, _) in expenseMap) {
-            val legendItem =
-                inflater.inflate(R.layout.item_legend, binding.customLegendLayout, false)
+        val incomesRef = firestore.collection("users")
+            .document(userId)
+            .collection("incomes")
 
-            val colorBox = legendItem.findViewById<View>(R.id.colorBox)
-            val label = legendItem.findViewById<android.widget.TextView>(R.id.label)
-            val percent = legendItem.findViewById<android.widget.TextView>(R.id.percent)
+        val query: Query = when (filter) {
+            "Last 7 days" -> incomesRef.whereGreaterThan("date", getPastDate(7))
+            "This month" -> incomesRef.whereGreaterThan("date", getMonthStart())
+            "Last 1 month" -> incomesRef.whereGreaterThan("date", getPastDate(30))
+            "Last 3 months" -> incomesRef.whereGreaterThan("date", getPastDate(90))
+            else -> incomesRef
+        }.orderBy("date", Query.Direction.DESCENDING)
 
-            colorBox.setBackgroundColor(categoryColors[category] ?: Color.GRAY)
-            label.text = category
+        query.get()
+            .addOnSuccessListener { result ->
+                val incomeMap = mutableMapOf<String, Float>()
+                var totalAmount = 0f
 
-            // Yüzdeyi TextView'e yaz
-            percent.text = String.format("%.1f%%", categoryPercentages[category] ?: 0f)
+                for (document in result) {
+                    val category = document.getString("category") ?: "Diğer"
+                    val amount = document.getDouble("amount")?.toFloat() ?: 0f
+                    incomeMap[category] = incomeMap.getOrDefault(category, 0f) + amount
+                    totalAmount += amount
+                }
 
-            binding.customLegendLayout.addView(legendItem)
-        }
+                updatePieChartForIncome(incomeMap, totalAmount)
+            }
+            .addOnFailureListener {
+                println("Gelir verisi alınamadı: ${it.message}")
+            }
     }
 
     private fun updatePieChart(expenseMap: Map<String, Float>, totalAmount: Float) {
@@ -127,13 +181,12 @@ class AnalysisFragment : Fragment() {
         var colorIndex = 0
 
         for ((category, amount) in expenseMap) {
+            if (totalAmount == 0f) continue
             val percentage = (amount / totalAmount) * 100
-            categoryPercentages[category] = percentage  // Yüzdeyi kaydediyoruz
+            categoryPercentages[category] = percentage
 
-            // PieEntry ekliyoruz
             pieEntries.add(PieEntry(percentage, category))
 
-            // Kategorilere renk atıyoruz
             if (!categoryColors.containsKey(category)) {
                 categoryColors[category] = predefinedColors[colorIndex % predefinedColors.size]
                 colorIndex++
@@ -150,7 +203,6 @@ class AnalysisFragment : Fragment() {
                 return "${String.format("%.1f", value)}%"
             }
         }
-
         pieDataSet.setDrawValues(false)
 
         val pieData = PieData(pieDataSet)
@@ -162,7 +214,7 @@ class AnalysisFragment : Fragment() {
         binding.pieChart.invalidate()
 
         val legend = binding.pieChart.legend
-        legend.textSize = 16f // Yazı boyutu
+        legend.textSize = 16f
         legend.formSize = 16f
         legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
@@ -173,58 +225,28 @@ class AnalysisFragment : Fragment() {
         binding.pieChart.legend.isEnabled = false
 
         createCustomLegend(expenseMap, categoryColors, categoryPercentages)
-
     }
 
-    //Income starts
-    private fun fetchIncomeFromFirestore() {
-        if (userId.isEmpty()) return
-
-        firestore.collection("users")
-            .document(userId)
-            .collection("incomes")
-            .addSnapshotListener { result, exception ->
-                if (exception != null) {
-                    println("Gelir verisi alınamadı: ${exception.message}")
-                    return@addSnapshotListener
-                }
-
-                val incomeMap = mutableMapOf<String, Float>()
-                var totalAmount = 0f
-
-                result?.forEach { document ->
-                    val category = document.getString("category") ?: "Diğer"
-                    val amount = document.getDouble("amount")?.toFloat() ?: 0f
-                    incomeMap[category] = incomeMap.getOrDefault(category, 0f) + amount
-                    totalAmount += amount
-                }
-
-                updatePieChartForIncome(incomeMap, totalAmount)
-            }
-    }
-
-    private fun createCustomLegendForIncome(
-        incomeMap: Map<String, Float>,
+    private fun createCustomLegend(
+        expenseMap: Map<String, Float>,
         categoryColors: Map<String, Int>,
         categoryPercentages: Map<String, Float>
     ) {
-        binding.customLegendLayoutForIncome.removeAllViews()
+        binding.customLegendLayout.removeAllViews()
         val inflater = LayoutInflater.from(context)
 
-        for ((category, _) in incomeMap) {
-            val legendItem =
-                inflater.inflate(R.layout.item_legend, binding.customLegendLayoutForIncome, false)
+        for ((category, _) in expenseMap) {
+            val legendItem = inflater.inflate(R.layout.item_legend, binding.customLegendLayout, false)
+
             val colorBox = legendItem.findViewById<View>(R.id.colorBox)
-            val label = legendItem.findViewById<android.widget.TextView>(R.id.label)
-            val percent = legendItem.findViewById<android.widget.TextView>(R.id.percent)
+            val label = legendItem.findViewById<TextView>(R.id.label)
+            val percent = legendItem.findViewById<TextView>(R.id.percent)
 
             colorBox.setBackgroundColor(categoryColors[category] ?: Color.GRAY)
             label.text = category
-
-            // Yüzdeyi TextView'e yaz
             percent.text = String.format("%.1f%%", categoryPercentages[category] ?: 0f)
 
-            binding.customLegendLayoutForIncome.addView(legendItem)
+            binding.customLegendLayout.addView(legendItem)
         }
     }
 
@@ -245,13 +267,12 @@ class AnalysisFragment : Fragment() {
         var colorIndex = 0
 
         for ((category, amount) in incomeMap) {
+            if (totalAmount == 0f) continue
             val percentage = (amount / totalAmount) * 100
-            categoryPercentages[category] = percentage  // Yüzdeyi kaydediyoruz
+            categoryPercentages[category] = percentage
 
-            // PieEntry ekliyoruz
             pieEntries.add(PieEntry(percentage, category))
 
-            // Kategorilere renk atıyoruz
             if (!categoryColors.containsKey(category)) {
                 categoryColors[category] = predefinedColors[colorIndex % predefinedColors.size]
                 colorIndex++
@@ -259,19 +280,18 @@ class AnalysisFragment : Fragment() {
             colors.add(categoryColors[category]!!)
         }
 
-        val pieDataSet1 = PieDataSet(pieEntries, "")
-        pieDataSet1.colors = colors
-        pieDataSet1.valueTextColor = Color.WHITE
-        pieDataSet1.valueTextSize = 18f
-        pieDataSet1.valueFormatter = object : ValueFormatter() {
+        val pieDataSet = PieDataSet(pieEntries, "")
+        pieDataSet.colors = colors
+        pieDataSet.valueTextColor = Color.WHITE
+        pieDataSet.valueTextSize = 18f
+        pieDataSet.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 return "${String.format("%.1f", value)}%"
             }
         }
+        pieDataSet.setDrawValues(false)
 
-        pieDataSet1.setDrawValues(false)
-
-        val pieData = PieData(pieDataSet1)
+        val pieData = PieData(pieDataSet)
         binding.pieChart1.data = pieData
         binding.pieChart1.description.isEnabled = false
         binding.pieChart1.setDrawEntryLabels(false)
@@ -280,7 +300,7 @@ class AnalysisFragment : Fragment() {
         binding.pieChart1.invalidate()
 
         val legend = binding.pieChart1.legend
-        legend.textSize = 16f // Yazı boyutu
+        legend.textSize = 16f
         legend.formSize = 16f
         legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
@@ -291,7 +311,29 @@ class AnalysisFragment : Fragment() {
         binding.pieChart1.legend.isEnabled = false
 
         createCustomLegendForIncome(incomeMap, categoryColors, categoryPercentages)
+    }
 
+    private fun createCustomLegendForIncome(
+        incomeMap: Map<String, Float>,
+        categoryColors: Map<String, Int>,
+        categoryPercentages: Map<String, Float>
+    ) {
+        binding.customLegendLayoutForIncome.removeAllViews()
+        val inflater = LayoutInflater.from(context)
+
+        for ((category, _) in incomeMap) {
+            val legendItem = inflater.inflate(R.layout.item_legend, binding.customLegendLayoutForIncome, false)
+
+            val colorBox = legendItem.findViewById<View>(R.id.colorBox)
+            val label = legendItem.findViewById<TextView>(R.id.label)
+            val percent = legendItem.findViewById<TextView>(R.id.percent)
+
+            colorBox.setBackgroundColor(categoryColors[category] ?: Color.GRAY)
+            label.text = category
+            percent.text = String.format("%.1f%%", categoryPercentages[category] ?: 0f)
+
+            binding.customLegendLayoutForIncome.addView(legendItem)
+        }
     }
 
     override fun onDestroyView() {
