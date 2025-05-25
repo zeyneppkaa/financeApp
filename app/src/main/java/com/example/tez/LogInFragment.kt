@@ -27,6 +27,24 @@ class LogInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var isLoginPasswordVisible = false
+
+        binding.eyeLogin.setOnClickListener {
+            isLoginPasswordVisible = !isLoginPasswordVisible
+
+            if (isLoginPasswordVisible) {
+                binding.etPassword.inputType = android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.eyeLogin.setImageResource(R.drawable.eye_open)
+            } else {
+                binding.etPassword.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.eyeLogin.setImageResource(R.drawable.eye)
+            }
+
+            // İmleç konumunu koru
+            binding.etPassword.setSelection(binding.etPassword.text.length)
+        }
+
+
         // Firebase Auth başlat
         auth = FirebaseAuth.getInstance()
 
@@ -44,7 +62,7 @@ class LogInFragment : Fragment() {
 
         // SignUp butonu tıklama işlemi
         binding.btnSignup.setOnClickListener {
-            findNavController().navigate(R.id.action_logInFragment_to_signUpFragment)
+            findNavController().navigate(R.id.action_logInFragment_to_SignUpFragment)
         }
     }
 
@@ -56,7 +74,7 @@ class LogInFragment : Fragment() {
 
                     // Giriş başarılıysa HomeFragment'e geçiş yap
                     val navController = findNavController()
-                    navController.navigate(R.id.action_signUpFragment_to_homeFragment) // homeFragment'e yönlendirme
+                    navController.navigate(R.id.action_SignUpFragment_to_homeFragment) // homeFragment'e yönlendirme
                 } else {
                     Toast.makeText(requireContext(), "Giriş başarısız: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                 }

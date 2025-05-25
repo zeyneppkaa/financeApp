@@ -51,8 +51,15 @@
         <action
             android:id="@+id/action_profileFragment_to_HelpFragment"
             app:destination="@id/HelpFragment" />
+        <argument
+            android:name="name"
+            app:argType="string" />
 
+        <argument
+            android:name="email"
+            app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/scanFragment"
         android:name="com.example.tez.ScanFragment"
@@ -77,22 +84,24 @@
         android:label="fragment_log_in"
         tools:layout="@layout/fragment_log_in" >
         <action
-            android:id="@+id/action_signUpFragment_to_homeFragment"
+            android:id="@+id/action_SignUpFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
         <action
-            android:id="@+id/action_logInFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment" />
+            android:id="@+id/action_logInFragment_to_SignUpFragment"
+            app:destination="@id/SignUpFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/signUpFragment"
+        android:id="@+id/SignUpFragment"
         android:name="com.example.tez.SignUpFragment"
         android:label="Sign Up"
         tools:layout="@layout/fragment_sign_up">
         <action
-            android:id="@+id/action_signUpFragment_to_logInFragment"
-            app:destination="@id/logInFragment"
-            />
+            android:id="@+id/action_SignUpFragment_to_logInFragment"
+            app:destination="@id/logInFragment" />
+        <action
+            android:id="@+id/action_SignUpFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/temporaryBillsFragment"

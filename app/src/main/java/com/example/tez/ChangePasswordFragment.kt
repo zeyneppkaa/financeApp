@@ -48,6 +48,55 @@ class ChangePasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var isCurrentPassVisible = false
+        var isNewPassVisible = false
+        var isConfirmPassVisible = false
+
+// eyeCurrent için
+        binding.eyeCurrent.setOnClickListener {
+            isCurrentPassVisible = !isCurrentPassVisible
+
+            if (isCurrentPassVisible) {
+                binding.currentPass.inputType = android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.eyeCurrent.setImageResource(R.drawable.eye_open)
+            } else {
+                binding.currentPass.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.eyeCurrent.setImageResource(R.drawable.eye)
+            }
+            binding.currentPass.setSelection(binding.currentPass.text.length)
+        }
+
+// eyeNew için
+        binding.eyeNew.setOnClickListener {
+            isNewPassVisible = !isNewPassVisible
+
+            if (isNewPassVisible) {
+                binding.newPass.inputType = android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.eyeNew.setImageResource(R.drawable.eye_open)
+            } else {
+                binding.newPass.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.eyeNew.setImageResource(R.drawable.eye)
+            }
+            binding.newPass.setSelection(binding.newPass.text.length)
+        }
+
+// eyeConfirm için
+        binding.eyeConfirm.setOnClickListener {
+            isConfirmPassVisible = !isConfirmPassVisible
+
+            if (isConfirmPassVisible) {
+                binding.confirmNewPass.inputType = android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.eyeConfirm.setImageResource(R.drawable.eye_open)
+            } else {
+                binding.confirmNewPass.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.eyeConfirm.setImageResource(R.drawable.eye)
+            }
+            binding.confirmNewPass.setSelection(binding.confirmNewPass.text.length)
+        }
+
+
+
+
         binding.leftSettings.setOnClickListener() {
             findNavController().navigate(R.id.action_changePasswordFragment_to_profileFragment)
         }
