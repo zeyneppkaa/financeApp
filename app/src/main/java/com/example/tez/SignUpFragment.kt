@@ -12,6 +12,8 @@ import com.example.tez.databinding.FragmentSignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.example.tez.SignUpFragmentDirections
+
 
 class SignUpFragment : Fragment() {
 
@@ -29,6 +31,42 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        var isPassword1Visible = false
+        var isPassword2Visible = false
+
+        binding.eyeSignup1.setOnClickListener {
+            isPassword1Visible = !isPassword1Visible
+
+            if (isPassword1Visible) {
+                binding.txtSuPassword.inputType = android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.eyeSignup1.setImageResource(R.drawable.eye_open)
+            } else {
+                binding.txtSuPassword.inputType =
+                    android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.eyeSignup1.setImageResource(R.drawable.eye)
+            }
+
+            binding.txtSuPassword.setSelection(binding.txtSuPassword.text.length)
+        }
+
+        binding.eyeSignup2.setOnClickListener {
+            isPassword2Visible = !isPassword2Visible
+
+            if (isPassword2Visible) {
+                binding.txtSuPassword1.inputType = android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.eyeSignup2.setImageResource(R.drawable.eye_open)
+            } else {
+                binding.txtSuPassword1.inputType =
+                    android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.eyeSignup2.setImageResource(R.drawable.eye)
+            }
+
+            binding.txtSuPassword1.setSelection(binding.txtSuPassword1.text.length)
+        }
+
+
+
 
         val suToLogin = view.findViewById<ImageView>(R.id.su_to_login)
 
@@ -71,12 +109,18 @@ class SignUpFragment : Fragment() {
                     user?.let {
                         saveUserToFirestore(it.uid, name, email, phone, birthDate, password)
                         sendEmailVerification(it)
+
+                        // 🔽 Navigation burada yapılır:
+                        val action = SignUpFragmentDirections.actionSignUpFragmentToProfileFragment(name, email)
+                        findNavController().navigate(action)
+
                     }
                 } else {
                     Toast.makeText(requireContext(), "Kayıt başarısız: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                 }
             }
     }
+
 
     private fun saveUserToFirestore(userId: String, name: String, email: String, phone: String, birthDate: String, password: String) {
         val db = FirebaseFirestore.getInstance()
@@ -105,7 +149,7 @@ class SignUpFragment : Fragment() {
         user?.sendEmailVerification()?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Toast.makeText(requireContext(), "Kayıt başarılı! Lütfen e-posta adresinizi doğrulayın.", Toast.LENGTH_LONG).show()
-                findNavController().navigate(R.id.action_signUpFragment_to_logInFragment)
+                findNavController().navigate(R.id.action_SignUpFragment_to_logInFragment)
             } else {
                 Toast.makeText(requireContext(), "E-posta doğrulama gönderilemedi: ${task.exception?.message}", Toast.LENGTH_LONG).show()
             }

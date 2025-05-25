@@ -88,14 +88,15 @@
         app:layout_constraintTop_toBottomOf="@+id/login_mail_input" />
 
     <ImageView
-        android:id="@+id/login_closed"
+        android:id="@+id/eye_login"
         android:layout_width="32dp"
         android:layout_height="26dp"
+        android:layout_marginEnd="8dp"
         android:src="@drawable/eye"
-        android:layout_marginEnd="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/login_password_input"
         app:layout_constraintEnd_toEndOf="@+id/login_password_input"
-        app:layout_constraintTop_toTopOf="@+id/login_password_input" />
+        app:layout_constraintTop_toTopOf="@+id/login_password_input"
+         />
 
     <TextView
         android:id="@+id/text_login"
@@ -151,10 +152,9 @@
 
     <EditText
         android:id="@+id/et_password"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:hint="●●●●●●●●"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:layout_marginStart="10dp"
         app:layout_constraintStart_toStartOf="@+id/login_password_input"
         app:layout_constraintTop_toTopOf="@+id/login_password_input" />

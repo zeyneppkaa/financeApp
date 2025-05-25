@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ProfileFragment : Fragment() {
 
@@ -19,6 +20,42 @@ class ProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val profileNameTextView = view.findViewById<TextView>(R.id.ProfileName)
+        val profileMailTextView = view.findViewById<TextView>(R.id.text_mail)
+
+        val auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+
+        if (userId != null) {
+            val db = FirebaseFirestore.getInstance()
+            db.collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        val fullName = document.getString("name") ?: "İsimsiz Kullanıcı"
+                        val email = document.getString("email") ?: "E-posta bulunamadı"
+
+                        profileNameTextView.text = fullName
+                        profileMailTextView.text = email
+                    } else {
+                        profileNameTextView.text = "İsim Bulunamadı"
+                        profileMailTextView.text = "E-posta bulunamadı"
+                    }
+                }
+                .addOnFailureListener {
+                    profileNameTextView.text = "İsim yüklenemedi"
+                    profileMailTextView.text = "E-posta yüklenemedi"
+                }
+        } else {
+            profileNameTextView.text = "Kullanıcı giriş yapmamış"
+            profileMailTextView.text = "E-posta yok"
+        }
+    }
+
+
 
 
 
