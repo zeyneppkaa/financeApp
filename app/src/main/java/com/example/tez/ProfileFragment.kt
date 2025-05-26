@@ -55,10 +55,6 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -91,10 +87,8 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profileFragment_to_HelpFragment)
         }
 
-
         logoutText.setOnClickListener(logoutClickListener)
         logoutIcon.setOnClickListener(logoutClickListener)
-
 
         return view
     }

@@ -32,41 +32,74 @@ class HomeFragment : Fragment() {
     private val firestore = FirebaseFirestore.getInstance()
     private val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
+    private var currentFilter = "Daily"
+    private var currentWeekOffset = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+    ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Kullanıcı ismini çek ve göster
+        firestore.collection("users").document(userId).get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    val name = document.getString("name") ?: "User"
+                    binding.tvUserName.text = "Hello, $name"
+                } else {
+                    binding.tvUserName.text = "Hello, User"
+                }
+            }
+            .addOnFailureListener {
+                binding.tvUserName.text = "Hello, User"
+            }
+
+        fetchTotalBalance()
         fetchTotalIncomeThisMonth()
         fetchTotalExpenseThisMonth()
 
         setupFilterButtons()
         binding.btnDaily.performClick()
-        fetchExpensesAndDisplay("Daily")
 
         binding.btnExpenses.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToExpensesFragment()
             findNavController().navigate(action)
         }
+
         binding.btnIncomes.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToIncomeFragment()
             findNavController().navigate(action)
         }
+
         binding.btnBills.setOnClickListener {
             checkFirstTimeBillsClick()
+        }
+
+        // Sol/sağ ok dinleyicileri
+        binding.btnOverviewLeftArrow.setOnClickListener {
+            if (currentFilter == "Daily") {
+                currentWeekOffset--
+                fetchExpensesAndDisplay(currentFilter)
+            }
+        }
+
+        binding.btnOverviewRightArrow.setOnClickListener {
+            if (currentFilter == "Daily") {
+                currentWeekOffset++
+                fetchExpensesAndDisplay(currentFilter)
+            }
         }
     }
 
     private fun checkFirstTimeBillsClick() {
         val userId = auth.currentUser?.uid ?: return
-        val sharedPref =
-            requireActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+        val sharedPref = requireActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
         val hasClickedBills = sharedPref.getBoolean("hasClickedBills_$userId", false)
 
         if (!hasClickedBills) {
@@ -79,11 +112,47 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun fetchTotalBalance() {
+        if (userId.isEmpty()) return
+
+        val incomesRef = firestore.collection("users").document(userId).collection("incomes")
+        val expensesRef = firestore.collection("users").document(userId).collection("expenses")
+
+        incomesRef.get().addOnSuccessListener { incomeResult ->
+            var totalIncome = 0.0
+            for (doc in incomeResult) {
+                totalIncome += doc.getDouble("amount") ?: 0.0
+            }
+
+            expensesRef.get().addOnSuccessListener { expenseResult ->
+                var totalExpense = 0.0
+                for (doc in expenseResult) {
+                    totalExpense += doc.getDouble("amount") ?: 0.0
+                }
+
+                val totalBalance = totalIncome - totalExpense
+
+                val formattedBalance = String.format("₺ %, .2f", kotlin.math.abs(totalBalance))
+
+                // TextView'de yazıyı ve rengi güncelle
+                binding.tvTotalBalance.apply {
+                    text = if (totalBalance < 0) "-$formattedBalance" else formattedBalance
+                    setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (totalBalance < 0) R.color.red else R.color.white
+                        )
+                    )
+                }
+            }
+        }
+    }
+
     private fun fetchTotalIncomeThisMonth() {
         if (userId.isEmpty()) return
 
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.DAY_OF_MONTH, 1) // ayın başı
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
         val startOfMonth = calendar.time
 
         firestore.collection("users").document(userId).collection("incomes")
@@ -92,8 +161,7 @@ class HomeFragment : Fragment() {
             .addOnSuccessListener { result ->
                 var total = 0.0
                 for (doc in result) {
-                    val amount = doc.getDouble("amount") ?: 0.0
-                    total += amount
+                    total += doc.getDouble("amount") ?: 0.0
                 }
                 binding.tvTotalIncomeAmount.text = "+ ₺ ${String.format("%,.2f", total)}"
             }
@@ -103,7 +171,7 @@ class HomeFragment : Fragment() {
         if (userId.isEmpty()) return
 
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.DAY_OF_MONTH, 1) // ayın başı
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
         val startOfMonth = calendar.time
 
         firestore.collection("users").document(userId).collection("expenses")
@@ -112,13 +180,11 @@ class HomeFragment : Fragment() {
             .addOnSuccessListener { result ->
                 var total = 0.0
                 for (doc in result) {
-                    val amount = doc.getDouble("amount") ?: 0.0
-                    total += amount
+                    total += doc.getDouble("amount") ?: 0.0
                 }
                 binding.tvTotalExpenseAmount.text = "- ₺ ${String.format("%,.2f", total)}"
             }
     }
-
 
     private fun setupFilterButtons() {
         val buttons = listOf(binding.btnDaily, binding.btnWeekly, binding.btnMonthly)
@@ -127,24 +193,22 @@ class HomeFragment : Fragment() {
             button.setOnClickListener {
                 buttons.forEach {
                     it.isSelected = false
-                    it.setBackgroundColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            android.R.color.transparent
-                        )
-                    )
+                    it.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.transparent))
                 }
 
                 button.isSelected = true
                 button.setBackgroundColor(Color.parseColor("#89D7F5"))
 
-                val filter = when (button.id) {
+                currentFilter = when (button.id) {
                     R.id.btnDaily -> "Daily"
                     R.id.btnWeekly -> "Weekly"
                     R.id.btnMonthly -> "Monthly"
                     else -> "Daily"
                 }
-                fetchExpensesAndDisplay(filter)
+
+                if (currentFilter != "Daily") currentWeekOffset = 0
+
+                fetchExpensesAndDisplay(currentFilter)
             }
         }
     }
@@ -153,45 +217,27 @@ class HomeFragment : Fragment() {
         if (userId.isEmpty()) return
 
         val calendar = Calendar.getInstance()
-        val now = calendar.time
 
         val (startDate, labelFormat, groupCount, labelGenerator) = when (timeframe) {
             "Daily" -> {
-                calendar.add(Calendar.DAY_OF_YEAR, -6)
-                Quadruple(
-                    calendar.time,
-                    "EEE",
-                    7
-                ) { cal: Calendar ->
-                    cal.getDisplayName(
-                        Calendar.DAY_OF_WEEK,
-                        Calendar.SHORT,
-                        Locale.getDefault()
-                    )!!
+                calendar.add(Calendar.DAY_OF_YEAR, -6 + currentWeekOffset * 7)
+                Quadruple(calendar.time, "EEE", 7) { cal: Calendar ->
+                    cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH)!!
                 }
             }
 
             "Weekly" -> {
                 calendar.set(Calendar.DAY_OF_MONTH, 1)
-                val firstDayOfMonth = calendar.time
-                Quadruple(firstDayOfMonth, "w", 4) { cal: Calendar ->
-                    val weekOfMonth = cal.get(Calendar.WEEK_OF_MONTH)
-                    "${weekOfMonth}st Week"
+                Quadruple(calendar.time, "w", 4) { cal: Calendar ->
+                    val week = cal.get(Calendar.WEEK_OF_MONTH)
+                    "${week}st Week"
                 }
             }
 
             "Monthly" -> {
                 calendar.add(Calendar.MONTH, -5)
-                Quadruple(
-                    calendar.time,
-                    "MMM",
-                    6
-                ) { cal: Calendar ->
-                    cal.getDisplayName(
-                        Calendar.MONTH,
-                        Calendar.SHORT,
-                        Locale.getDefault()
-                    )!!
+                Quadruple(calendar.time, "MMM", 6) { cal: Calendar ->
+                    cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH)!!
                 }
             }
 
@@ -209,6 +255,7 @@ class HomeFragment : Fragment() {
                     val date = expense.date.toDate()
                     val cal = Calendar.getInstance()
                     cal.time = date
+
                     when (timeframe) {
                         "Weekly" -> {
                             val day = cal.get(Calendar.DAY_OF_MONTH)
@@ -221,9 +268,14 @@ class HomeFragment : Fragment() {
                             val key = "${weekIndex + 1}st Week"
                             groupMap[key] = (groupMap[key] ?: 0f) + expense.amount.toFloat()
                         }
+                        "Daily" -> {
+                            val sdf = SimpleDateFormat("dd MMM", Locale.ENGLISH)
+                            val key = sdf.format(date)
+                            groupMap[key] = (groupMap[key] ?: 0f) + expense.amount.toFloat()
+                        }
 
                         else -> {
-                            val sdf = SimpleDateFormat(labelFormat, Locale.getDefault())
+                            val sdf = SimpleDateFormat(labelFormat, Locale.ENGLISH)
                             val key = sdf.format(date)
                             groupMap[key] = (groupMap[key] ?: 0f) + expense.amount.toFloat()
                         }
@@ -232,6 +284,23 @@ class HomeFragment : Fragment() {
 
                 val labels = ArrayList<String>()
                 val entries = ArrayList<BarEntry>()
+
+                if (timeframe == "Daily") {
+                    val sdfRange = SimpleDateFormat("dd MMM", Locale.ENGLISH)
+                    val startCal = Calendar.getInstance()
+                    startCal.add(Calendar.DAY_OF_YEAR, -6 + currentWeekOffset * 7)
+                    val endCal = Calendar.getInstance()
+                    endCal.add(Calendar.DAY_OF_YEAR, currentWeekOffset * 7)
+                    val rangeText = "${sdfRange.format(startCal.time)} - ${sdfRange.format(endCal.time)}"
+                    binding.btnOverviewLeftArrow.visibility = View.VISIBLE
+                    binding.btnOverviewRightArrow.visibility = View.VISIBLE
+                    binding.tvWeekRange.text = rangeText
+                    binding.tvWeekRange.visibility = View.VISIBLE
+                } else {
+                    binding.tvWeekRange.visibility = View.GONE
+                    binding.btnOverviewLeftArrow.visibility = View.GONE
+                    binding.btnOverviewRightArrow.visibility = View.GONE
+                }
 
                 when (timeframe) {
                     "Weekly" -> {
@@ -242,17 +311,32 @@ class HomeFragment : Fragment() {
                         }
                     }
 
-                    else -> {
+                    "Daily" -> {
                         calendar.time = startDate
-                        repeat(groupCount) { index ->
-                            val label = labelGenerator(calendar.clone() as Calendar)
-                            labels.add(label)
-                            entries.add(BarEntry(index.toFloat(), groupMap[label] ?: 0f))
+                        repeat(groupCount) {
+                            val currentCal = calendar.clone() as Calendar
+                            val key = SimpleDateFormat("dd MMM", Locale.ENGLISH).format(currentCal.time)
 
-                            when (timeframe) {
-                                "Daily" -> calendar.add(Calendar.DAY_OF_YEAR, 1)
-                                "Monthly" -> calendar.add(Calendar.MONTH, 1)
-                            }
+                            // X ekseni için sadece gün adı ("Mon", "Tue" vs)
+                            val dayLabel = currentCal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH) ?: ""
+                            labels.add(dayLabel)
+
+                            entries.add(BarEntry(it.toFloat(), groupMap[key] ?: 0f))
+
+                            calendar.add(Calendar.DAY_OF_YEAR, 1)
+                        }
+                    }
+
+                    "Monthly" -> {
+                        calendar.time = startDate
+                        repeat(groupCount) {
+                            val currentCal = calendar.clone() as Calendar
+                            val key = SimpleDateFormat("MMM", Locale.ENGLISH).format(currentCal.time)
+
+                            labels.add(currentCal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH) ?: "")
+                            entries.add(BarEntry(it.toFloat(), groupMap[key] ?: 0f))
+
+                            calendar.add(Calendar.MONTH, 1)
                         }
                     }
                 }
@@ -272,8 +356,7 @@ class HomeFragment : Fragment() {
         data.barWidth = 0.2f
 
         val barChart = binding.barChart
-        barChart.renderer =
-            RoundedBarChartRenderer(barChart, barChart.animator, barChart.viewPortHandler)
+        barChart.renderer = RoundedBarChartRenderer(barChart, barChart.animator, barChart.viewPortHandler)
         barChart.data = data
         barChart.setFitBars(true)
         barChart.setDrawGridBackground(false)
@@ -302,12 +385,10 @@ class HomeFragment : Fragment() {
         val leftAxis = barChart.axisLeft
         leftAxis.setDrawGridLines(true)
         leftAxis.enableGridDashedLine(10f, 10f, 0f)
-        leftAxis.gridColor =
-            ContextCompat.getColor(requireContext(), R.color.overview_chart_left_axis)
+        leftAxis.gridColor = ContextCompat.getColor(requireContext(), R.color.overview_chart_left_axis)
         leftAxis.setDrawLabels(true)
         leftAxis.setDrawAxisLine(false)
-        leftAxis.textColor =
-            ContextCompat.getColor(requireContext(), R.color.overview_chart_left_axis)
+        leftAxis.textColor = ContextCompat.getColor(requireContext(), R.color.overview_chart_left_axis)
         leftAxis.textSize = 12f
         leftAxis.setLabelCount(5, true)
         leftAxis.axisMinimum = 0f
@@ -323,7 +404,6 @@ class HomeFragment : Fragment() {
 
         barChart.invalidate()
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

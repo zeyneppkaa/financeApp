@@ -21,16 +21,6 @@
         app:titleMarginStart="100dp"
         app:titleTextColor="@android:color/white">
 
-        <Button
-            android:id="@+id/btn_save_income"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save"
-            android:textColor="@android:color/white"
-            android:background="@android:color/transparent"
-            android:padding="8dp"
-            android:visibility="gone"
-            android:layout_gravity="end"/>
     </androidx.appcompat.widget.Toolbar>
 
     <!-- Kategoriler (RecyclerView) -->
@@ -105,7 +95,7 @@
         android:layout_height="60dp"
         android:orientation="horizontal"
         android:background="@color/expense_input_bg"
-        android:padding="18dp"
+        android:paddingVertical="10dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,6 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="6dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="Category Icon"
             app:tint="@android:color/white" />
 
@@ -125,6 +116,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:hint="Income Name"
+            android:textColorHint="@color/input_bar_hint_text"
+            android:layout_marginStart="4dp"
             android:textColor="@android:color/white"
             android:background="@android:color/transparent" />
 
@@ -134,10 +127,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="0"
+            android:textColorHint="@color/input_bar_hint_text"
             android:textColor="@android:color/white"
             android:gravity="end"
             android:inputType="numberDecimal"
             android:background="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/btn_save_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/expense_input_bg"
+            android:layout_marginStart="8dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
