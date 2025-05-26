@@ -29,5 +29,6 @@
     <color name="edit_text_input">#8A000000</color>
     <color name="edit_price_input">#9AD911</color>
     <color name="edit_label">#57C6F2</color>
+    <color name="input_bar_hint_text">#9CC0CF</color>
 
 </resources>

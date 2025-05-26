@@ -12,13 +12,13 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <!-- Profil ve Bildirim -->
+        <!-- Profil -->
         <TextView
             android:id="@+id/tvUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Hello, Daisy"
+            android:text="Hello, User"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:layout_marginTop="30dp"
@@ -90,7 +90,7 @@
                 android:id="@+id/iconIncome"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/income_home_icon"
+                android:src="@drawable/ic_income_home"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTotalBalance" />
@@ -100,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Total Income"
+                android:text="Income"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/iconIncome"
@@ -123,10 +123,11 @@
                 android:id="@+id/iconExpense"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/expense_home_icon"
+                android:src="@drawable/ic_expense_home"
+                android:layout_marginStart="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tvTotalExpense"
+                app:layout_constraintStart_toEndOf="@+id/view"
                 app:layout_constraintTop_toBottomOf="@+id/tvTotalBalance" />
 
             <TextView
@@ -134,12 +135,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Total Expense"
+                android:text="Expense"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTotalBalance" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTotalBalance"
+                app:layout_constraintStart_toEndOf="@id/iconExpense"/>
 
             <TextView
                 android:id="@+id/tvTotalExpenseAmount"
@@ -216,6 +217,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tvBills"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bills"
@@ -225,6 +227,7 @@
                 app:layout_constraintTop_toBottomOf="@id/btnBills" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <!-- Filtreleme Butonları -->
         <LinearLayout
@@ -291,9 +294,42 @@
                 android:fontFamily="@font/poppins_medium"
                 android:text="Overview"
                 android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnOverviewLeftArrow"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btnOverviewLeftArrow"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_chevron_left"
+                android:background="@null"
+                app:layout_constraintEnd_toStartOf="@id/btnOverviewRightArrow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/tvOverview" />
+
+            <ImageButton
+                android:id="@+id/btnOverviewRightArrow"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_chevron_right"
+                android:background="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/tvOverview"/>
+
+            <TextView
+                android:id="@+id/tvWeekRange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="13 May - 19 May"
+                android:textSize="10sp"
+                android:fontFamily="@font/poppins_medium"
+                android:layout_marginStart="12dp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/tvOverview"
+                app:layout_constraintStart_toStartOf="parent"/>
+
 
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/barChart"
@@ -304,7 +340,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvOverview" />
+                app:layout_constraintTop_toBottomOf="@id/tvWeekRange" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

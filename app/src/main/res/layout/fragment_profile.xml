@@ -117,7 +117,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_security"
-
         app:layout_constraintBottom_toBottomOf="@+id/bttn_edit2"
         app:layout_constraintEnd_toEndOf="@+id/bttn_edit2"
         app:layout_constraintStart_toStartOf="@+id/bttn_edit2"
